@@ -1,0 +1,26 @@
+int numFiles = 3;
+string baseName = "file";
+
+string cmd = "mkdir files";
+
+exec(cmd);
+
+exec("cd files");
+
+int counter = 0;
+
+for (numFiles) {
+    echo("Creating file number " + (counter + 1));
+    exec("touch " + baseName + (counter + 1));
+    counter = counter + 1
+}
+
+echo("Verifying command success with 'ls'");
+string result;
+exec("ls", result);
+
+if (result == "") {
+    echo("File creation failed, ls returned nothing");
+} else {
+    echo("File creation successful");
+}
