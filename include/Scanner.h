@@ -20,7 +20,7 @@
 
 class Scanner {
     private:
-        std::ifstream * const source;
+        std::ifstream& source;
         std::vector<Token> tokens;
 
         /**
@@ -51,7 +51,7 @@ class Scanner {
          * 
          * @param source the source text to be scanned
          */
-        Scanner(std::ifstream *source);
+        Scanner(std::ifstream& source);
 
         /**
          * @brief Scan the source text and tokenize

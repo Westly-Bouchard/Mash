@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    Scanner *scanner = new Scanner(&sourceFile);
+    Scanner *scanner = new Scanner(sourceFile);
 
     vector<Token> *tokens = scanner->scanTokens();
 

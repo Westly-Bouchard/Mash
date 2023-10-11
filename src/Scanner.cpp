@@ -16,7 +16,7 @@
 
 using namespace TokenType;
 
-Scanner::Scanner(std::ifstream *source) : source(source) {
+Scanner::Scanner(std::ifstream& source) : source(source) {
     // tokens = {};
 }
 
@@ -41,7 +41,7 @@ std::vector<Token>* Scanner::scanTokens() {
 
     char c;
 
-    while (source->peek() != EOF) {
+    while (source.peek() != EOF) {
 
         c = advance();
 
@@ -99,11 +99,11 @@ std::vector<Token>* Scanner::scanTokens() {
             // Comments and or just the slash
             case '/': {
                 // Single line comments
-                if (source->peek() == '/') {
-                    while (source->peek() != '\n' && !source->eof()) advance();
-                } else if (source->peek() == '*') {
+                if (source.peek() == '/') {
+                    while (source.peek() != '\n' && !source.eof()) advance();
+                } else if (source.peek() == '*') {
                     advance();
-                    while (source->peek() != '*' && peekNext() != '/' && !source->eof()) {
+                    while (source.peek() != '*' && peekNext() != '/' && !source.eof()) {
                         c = advance();
                         if (c == '\n') line++;
                     }
@@ -118,7 +118,7 @@ std::vector<Token>* Scanner::scanTokens() {
             
             // Equal or double equal signs
             case '=': {
-                if (source->peek() == '=') {
+                if (source.peek() == '=') {
                     tokens.push_back(Token(Type::EQUAL_EQUAL, "==", nullptr, line));
                     advance();
                 } else {
@@ -129,7 +129,7 @@ std::vector<Token>* Scanner::scanTokens() {
 
             // Bang or bang equals
             case '!': {
-                if (source->peek() == '=') {
+                if (source.peek() == '=') {
                     tokens.push_back(Token(Type::BANG_EQUAL, "!=", nullptr, line));
                     advance();
                 } else {
@@ -140,7 +140,7 @@ std::vector<Token>* Scanner::scanTokens() {
 
             // Greater than and less than
             case '>': {
-                if (source->peek() == '=') {
+                if (source.peek() == '=') {
                     tokens.push_back(Token(Type::GREATER_EQUAL, ">=", nullptr, line));
                     advance();
                 } else {
@@ -150,7 +150,7 @@ std::vector<Token>* Scanner::scanTokens() {
             }
 
             case '<': {
-                if (source->peek() == '=') {
+                if (source.peek() == '=') {
                     tokens.push_back(Token(Type::LESS_EQUAL, "<=", nullptr, line));
                     advance();
                 } else {
@@ -162,12 +162,12 @@ std::vector<Token>* Scanner::scanTokens() {
             // String literals
             case '"': {
                 string literal = "";
-                while (source->peek() != '"' && !source->eof()) {
-                    if (source->peek() == '\n') line++;
+                while (source.peek() != '"' && !source.eof()) {
+                    if (source.peek() == '\n') line++;
                     literal.push_back(advance());
                 }
 
-                if (source->eof()) {
+                if (source.eof()) {
                     cerr << "Encountered error: Unterminated string literal on line: " << line;
                     return nullptr;
                 }
@@ -184,11 +184,11 @@ std::vector<Token>* Scanner::scanTokens() {
                 string lexeme;
                 if (isdigit(c)) {
                     lexeme.push_back(c);
-                    while (isdigit(source->peek())) lexeme.push_back(advance());
+                    while (isdigit(source.peek())) lexeme.push_back(advance());
 
-                    if (source->peek() == '.') {
+                    if (source.peek() == '.') {
                         lexeme.push_back(advance());
-                        while (isdigit(source->peek())) lexeme.push_back(advance());
+                        while (isdigit(source.peek())) lexeme.push_back(advance());
                         tokens.push_back(Token(Type::NUMBER_DOUBLE, lexeme, std::stod(lexeme), line));
                     } else {
                         tokens.push_back(Token(Type::NUMBER_INT, lexeme, std::stoi(lexeme), line));
@@ -198,7 +198,7 @@ std::vector<Token>* Scanner::scanTokens() {
                 if (isalpha(c)) {
                     // Look for a keyword 
                     lexeme.push_back(c);
-                    while (iswalnum(source->peek())) lexeme.push_back(advance());
+                    while (iswalnum(source.peek())) lexeme.push_back(advance());
 
                     if (keywords.find(lexeme) == keywords.end()) {
                         // If the lexeme is not in the keywords, we assume it's an identifier
@@ -217,14 +217,14 @@ std::vector<Token>* Scanner::scanTokens() {
 
 char Scanner::peekNext() {
     char temp;
-    source->get(temp);
-    temp = source->peek();
-    source->unget();
+    source.get(temp);
+    temp = source.peek();
+    source.unget();
     return temp;
 }
 
 char Scanner::advance() {
     char temp;
-    source->get(temp);
+    source.get(temp);
     return temp;
 }
