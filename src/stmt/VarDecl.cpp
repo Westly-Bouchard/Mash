@@ -1,12 +1,9 @@
 
 #include "../../include/stmt/VarDecl.h"
 
-VarDecl::VarDecl(Token *type, Token *name, Expr *expr) {
-    this->type = type;
-    this->name = name;
-    this->expr = expr;
-}
+VarDecl::VarDecl(Token type, Token name, std::unique_ptr<Expr> expr) :
+                   type(type), name(name), expr(std::move(expr)) {}
 
-std::any VarDecl::accept(StmtVisitor<std::any> *visitor) const {
-    return visitor->visitVarDeclStmt(this);
+std::any VarDecl::accept(StmtVisitor<std::any>& visitor) const {
+    return visitor.visitVarDeclStmt(*this);
 }

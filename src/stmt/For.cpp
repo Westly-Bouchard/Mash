@@ -1,11 +1,9 @@
 
 #include "../../include/stmt/For.h"
 
-For::For(Expr *condition, Stmt *stmt) {
-    this->condition = condition;
-    this->stmt = stmt;
-}
+For::For(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt) :
+          condition(std::move(condition)), stmt(std::move(stmt)) {}
 
-std::any For::accept(StmtVisitor<std::any> *visitor) const {
-    return visitor->visitForStmt(this);
+std::any For::accept(StmtVisitor<std::any>& visitor) const {
+    return visitor.visitForStmt(*this);
 }

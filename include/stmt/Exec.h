@@ -1,18 +1,20 @@
 #ifndef EXEC_H
 #define EXEC_H
 
+#include <memory>
+
 #include "../expr/Expr.h"
 #include "Stmt.h"
 
 class Exec : public Stmt {
     private:
-        Expr *toRun;
-        Expr *result;
+        std::unique_ptr<Expr> toRun;
+        std::unique_ptr<Expr> result;
 
     public:
-        Exec(Expr *toRun, Expr *result);
+        Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result);
 
-        std::any accept(StmtVisitor<std::any> *visitor) const override;
+        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

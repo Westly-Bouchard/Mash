@@ -1,11 +1,8 @@
 
 #include "../../include/stmt/VarAssign.h"
 
-VarAssign::VarAssign(Token *name, Expr *expr) {
-    this->name = name;
-    this->expr = expr;
-}
+VarAssign::VarAssign(Token name, std::unique_ptr<Expr> expr) : name(name), expr(std::move(expr)) {}
 
-std::any VarAssign::accept(StmtVisitor<std::any> *visitor) const {
-    return visitor->visitVarAssignStmt(this);
+std::any VarAssign::accept(StmtVisitor<std::any>& visitor) const {
+    return visitor.visitVarAssignStmt(*this);
 }

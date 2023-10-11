@@ -5,8 +5,8 @@
 
 Parser::Parser(std::vector<Token>& tokens) : tokens(tokens), current(0) {}
 
-std::vector<Stmt> Parser::parse() {
-    std::vector<Stmt> statements;
+std::vector<std::unique_ptr<Stmt>> Parser::parse() {
+    std::vector<std::unique_ptr<Stmt>> statements;
 
     while (!isAtEnd()) {
         if (match(Type::INT)
@@ -23,6 +23,8 @@ std::vector<Stmt> Parser::parse() {
         // statement
         statements.push_back(statement());
     }
+
+    return statements;
 }
 
 Token Parser::peek() {

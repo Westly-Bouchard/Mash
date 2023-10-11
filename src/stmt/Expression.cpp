@@ -1,10 +1,8 @@
 
 #include "../../include/stmt/Expression.h"
 
-Expression::Expression(Expr *expr) {
-    this->expr = expr;
-}
+Expression::Expression(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
 
-std::any Expression::accept(StmtVisitor<std::any> *visitor) const {
-    return visitor->visitExpressionStmt(this);
+std::any Expression::accept(StmtVisitor<std::any>& visitor) const {
+    return visitor.visitExpressionStmt(*this);
 }

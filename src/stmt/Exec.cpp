@@ -1,11 +1,9 @@
 
 #include "../../include/stmt/Exec.h"
 
-Exec::Exec(Expr *toRun, Expr *result) {
-    this->toRun = toRun;
-    this->result = result;
-}
+Exec::Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result) :
+            toRun(std::move(toRun)), result(std::move(result)) {}
 
-std::any Exec::accept(StmtVisitor<std::any> *visitor) const {
-    return visitor->visitExecStmt(this);
+std::any Exec::accept(StmtVisitor<std::any>& visitor) const {
+    return visitor.visitExecStmt(*this);
 }

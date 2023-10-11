@@ -8,7 +8,7 @@
 class Stmt {
     public:
         virtual ~Stmt() = default;
-        virtual std::any accept(StmtVisitor<std::any> *visitor) const = 0;
+        virtual std::any accept(StmtVisitor<std::any>& visitor) const = 0;
 };
 
 #endif

@@ -1,17 +1,19 @@
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
 
+#include <memory>
+
 #include "../expr/Expr.h"
 #include "Stmt.h"
 
 class Expression : public Stmt {
     private:
-        Expr *expr;
+        std::unique_ptr<Expr> expr;
 
     public:
-        Expression(Expr *expr);
+        Expression(std::unique_ptr<Expr> expr);
 
-        std::any accept(StmtVisitor<std::any> *visitor) const override;
+        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

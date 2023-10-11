@@ -1,17 +1,19 @@
 #ifndef ECHO_H
 #define ECHO_H
 
+#include <memory>
+
 #include "../expr/Expr.h"
 #include "Stmt.h"
 
 class Echo : public Stmt {
     private:
-        Expr *expr;
+        std::unique_ptr<Expr> expr;
 
     public:
-        Echo(Expr *expr);
+        Echo(std::unique_ptr<Expr> expr);
 
-        std::any accept(StmtVisitor<std::any> *visitor) const override;
+        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

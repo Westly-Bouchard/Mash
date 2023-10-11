@@ -1,6 +1,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
+#include <memory>
 #include <vector>
 
 #include "stmt/Stmt.h"
@@ -21,13 +22,13 @@ class Parser {
         bool check(Type type);
         bool match(Type type);
 
-        Stmt declaration();
-        Stmt statement();
+        std::unique_ptr<Stmt> declaration();
+        std::unique_ptr<Stmt> statement();
 
     public:
         Parser(std::vector<Token>& tokens);
 
-        vector<Stmt> parse();
+        vector<std::unique_ptr<Stmt>> parse();
 };
 
 #endif

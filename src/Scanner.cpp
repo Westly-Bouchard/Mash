@@ -16,9 +16,7 @@
 
 using namespace TokenType;
 
-Scanner::Scanner(std::ifstream& source) : source(source) {
-    // tokens = {};
-}
+Scanner::Scanner(std::ifstream& source) : source(source) {}
 
 std::map<std::string, Type> Scanner::keywords = {
     {"true", TRUE},
