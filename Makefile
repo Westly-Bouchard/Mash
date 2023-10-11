@@ -1,5 +1,4 @@
 TARGET = mash
-# SRC_FILES = src/main.cpp src/Scanner.cpp src/Token.cpp src/TokenType.cpp src/expr/Binary.cpp src/expr/Grouping.cpp src/expr/Literal.cpp src/expr/Unary.cpp
 
 CORE_SRC = src/main.cpp src/Scanner.cpp src/Token.cpp src/TokenType.cpp src/Parser.cpp
 EXPR_SRC = src/expr/Binary.cpp src/expr/Grouping.cpp src/expr/Literal.cpp src/expr/Unary.cpp
