@@ -13,7 +13,7 @@ class Literal : public Expr {
     public:
         Literal(std::any value);
 
-        std::any accept(ExprVisitor<std::any> *visitor) const override;
+        std::any accept(ExprVisitor<std::any>& visitor) const override;
 };
 
 #endif

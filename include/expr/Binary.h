@@ -2,20 +2,22 @@
 #ifndef BINARY_H
 #define BINARY_H
 
+#include <memory>
+
 #include "Expr.h"
 #include "ExprVisitor.h"
 #include "../Token.h"
 
 class Binary : public Expr {
     private:
-        Expr *left;
-        Token *opp;
-        Expr *right;
+        std::unique_ptr<Expr> left;
+        Token opp;
+        std::unique_ptr<Expr> right;
 
     public:
-        Binary(Expr *left, Token *opp, Expr *right);
+        Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right);
 
-        std::any accept(ExprVisitor<std::any> *visitor) const override;
+        std::any accept(ExprVisitor<std::any>& visitor) const override;
 };
 
 #endif
