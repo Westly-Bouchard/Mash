@@ -3,12 +3,9 @@
 
 #include "../include/ASTCommon.h"
 
-Parser::Parser(std::vector<Token> *tokens) {
-    this->tokens = tokens;
-    this->current = 0;
-}
+Parser::Parser(std::vector<Token>& tokens) : tokens(tokens), current(0) {}
 
-std::vector<Stmt>* Parser::parse() {
+std::vector<Stmt> Parser::parse() {
     std::vector<Stmt> statements;
 
     while (!isAtEnd()) {
@@ -28,16 +25,12 @@ std::vector<Stmt>* Parser::parse() {
     }
 }
 
-Stmt Parser::declaration() {
-    return Binary();
-}
-
 Token Parser::peek() {
-    return tokens->at(current);
+    return tokens.at(current);
 }
 
 Token Parser::previous() {
-    return tokens->at(current - 1);
+    return tokens.at(current - 1);
 }
 
 Token Parser::advance() {

@@ -10,7 +10,7 @@ using namespace TokenType;
 
 class Parser {
     private:
-        std::vector<Token> *tokens;
+        std::vector<Token>& tokens;
         int current;
 
         Token previous();
@@ -25,9 +25,9 @@ class Parser {
         Stmt statement();
 
     public:
-        Parser(std::vector<Token> *tokens);
+        Parser(std::vector<Token>& tokens);
 
-        vector<Stmt>* parse();
+        vector<Stmt> parse();
 };
 
 #endif
