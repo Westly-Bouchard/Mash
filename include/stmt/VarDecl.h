@@ -5,16 +5,17 @@
 
 #include "../expr/Expr.h"
 #include "../Token.h"
+#include "../TokenType.h"
 #include "Stmt.h"
 
 class VarDecl : public Stmt {
     private:
-        Token type;
+        TokenType::Type type;
         Token name;
         std::unique_ptr<Expr> expr;
 
     public:
-        VarDecl(Token type, Token name, std::unique_ptr<Expr> expr);
+        VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr);
 
         std::any accept(StmtVisitor<std::any>& visitor) const override;
 };

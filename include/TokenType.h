@@ -24,7 +24,7 @@ namespace TokenType {
         // `{` and `}`
         LEFT_BRACE, RIGHT_BRACE,
 
-        // `.` and `;`
+        // `,` and `;`
         COMMA, SEMICOLON,
 
         // Equality and boolean operators
