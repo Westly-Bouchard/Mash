@@ -5,6 +5,7 @@ class Binary;
 class Grouping;
 class Literal;
 class Unary;
+class Variable;
 
 template <typename R>
 class ExprVisitor {
@@ -13,6 +14,7 @@ class ExprVisitor {
         virtual R visitGroupingExpr(const Grouping& groupingExpr) = 0; 
         virtual R visitLiteralExpr(const Literal& literalExpr) = 0;
         virtual R visitUnaryExpr(const Unary& unaryExpr) = 0;
+        virtual R visitVariableExpr(const Variable& variableExpr) = 0;
 };
 
 #endif
