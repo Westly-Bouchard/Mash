@@ -32,7 +32,7 @@ CORE_SRC_FILES = main.cpp Parser.cpp Scanner.cpp Token.cpp TokenType.cpp
 CORE_OBJECTS = $(CORE_SRC_FILES:%.cpp=$(CORE_OBJ_PATH)/%.o)
 
 $(CORE_OBJ_PATH)/%.o: $(CORE_SRC_PATH)/%.cpp
-	@echo "[INFO]: Building $@"
+	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
 EXPR_SRC_PATH = $(SRC_PATH)/$(EXPR_PATH)
@@ -43,7 +43,7 @@ EXPR_SRC_FILES = Binary.cpp Grouping.cpp Literal.cpp Unary.cpp Variable.cpp
 EXPR_OBJECTS = $(EXPR_SRC_FILES:%.cpp=$(EXPR_OBJ_PATH)/%.o)
 
 $(EXPR_OBJ_PATH)/%.o: $(EXPR_SRC_PATH)/%.cpp
-	@echo "[INFO]: Building $@"
+	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
 STMT_SRC_PATH = $(SRC_PATH)/$(STMT_PATH)
@@ -55,7 +55,7 @@ STMT_SRC_FILES = Block.cpp Echo.cpp Exec.cpp Expression.cpp For.cpp If.cpp VarAs
 STMT_OBJECTS = $(STMT_SRC_FILES:%.cpp=$(STMT_OBJ_PATH)/%.o)
 
 $(STMT_OBJ_PATH)/%.o: $(STMT_SRC_PATH)/%.cpp
-	@echo "[INFO]: Building $@"
+	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
 
