@@ -40,6 +40,12 @@ class Parser {
         std::unique_ptr<Stmt> assignmentStatement();
 
         std::unique_ptr<Expr> expression();
+        std::unique_ptr<Expr> equality();
+        std::unique_ptr<Expr> comparison();
+        std::unique_ptr<Expr> term();
+        std::unique_ptr<Expr> factor();
+        std::unique_ptr<Expr> unary();
+        std::unique_ptr<Expr> primary();
 
     public:
         Parser(std::vector<Token>& tokens);

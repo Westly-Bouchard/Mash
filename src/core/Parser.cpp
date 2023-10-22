@@ -240,7 +240,92 @@ std::unique_ptr<Stmt> Parser::assignmentStatement() {
     // expression statement AND that the current token is the same as it was at the beginning of the
     // function. This is an important caveat to ensure that the expression is pared correctly
     std::unique_ptr<Expr> expr = expression();
+
+    consume(Type::SEMICOLON, "Expected semicolon `;` after expression statement");
+
     return make_unique<Expression>(std::move(expr));
+}
+
+std::unique_ptr<Expr> Parser::expression() {
+    // TBH this function is really just a wrapper around equality cause it's easier to conceptualize
+    return equality();
+}
+
+std::unique_ptr<Expr> Parser::equality() {
+    // The first thing we do is try to parse the left hand side of the equality, which will be a
+    // comparison
+    std::unique_ptr<Expr> expr = comparison();
+
+    while (match(Type::BANG_EQUAL) || match(Type::EQUAL_EQUAL)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = comparison();
+        expr = make_unique<Binary>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::comparison() {
+    std::unique_ptr<Expr> expr = term();
+
+    while (
+        match(Type::GREATER) || match(LESS) || match(GREATER_EQUAL) || match(LESS_EQUAL)
+    ) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = term();
+        expr = make_unique<Binary>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::term() { 
+    std::unique_ptr<Expr> expr = factor();
+
+    while (match(Type::MINUS) || match(Type::PLUS)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = factor();
+        expr = make_unique<Binary>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::factor() {
+    std::unique_ptr<Expr> expr = unary();
+
+    while (match(Type::SLASH) || match(Type::STAR)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = unary();
+        expr = make_unique<Binary>(std::move(expr), op, std::move(right));
+    }
+
+    return expr;
+}
+
+std::unique_ptr<Expr> Parser::unary() {
+    if (match(Type::BANG) || match(Type::MINUS)) {
+        Token op = previous();
+        std::unique_ptr<Expr> right = unary();
+        return make_unique<Unary>(op, std::move(right));
+    }
+
+    return primary();
+}
+
+std::unique_ptr<Expr> Parser::primary() {
+    if (match(Type::FALSE)) return make_unique<Literal>(false);
+    if (match(Type::TRUE)) return make_unique<Literal>(true);
+
+    if (match(Type::NUMBER_DOUBLE) || match(Type::NUMBER_INT) || match(Type::STRING)) {
+        return make_unique<Literal>(previous().literal);
+    }
+
+    if (match(Type::LEFT_PAREN)) {
+        std::unique_ptr<Expr> expr = expression();
+        consume(Type::RIGHT_PAREN, "Expected right paren `)` after expression");
+        return make_unique<Grouping>(std::move(expr));
+    }
 }
 
 Token Parser::consume(Type expectedType, string errorMsg) {
