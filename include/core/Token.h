@@ -15,7 +15,7 @@
 #include <any>
 #include <string>
 
-#include "../include/TokenType.h"
+#include "TokenType.h"
 
 using namespace std;
 

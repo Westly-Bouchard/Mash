@@ -4,8 +4,8 @@
 #include <memory>
 
 #include "../expr/Expr.h"
-#include "../Token.h"
-#include "../TokenType.h"
+#include "../core/Token.h"
+#include "../core/Token.h"
 #include "Stmt.h"
 
 class VarDecl : public Stmt {

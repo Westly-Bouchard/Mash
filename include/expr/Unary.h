@@ -6,7 +6,7 @@
 
 #include "Expr.h"
 #include "ExprVisitor.h"
-#include "../Token.h"
+#include "../core/Token.h"
 
 class Unary : public Expr {
     private:

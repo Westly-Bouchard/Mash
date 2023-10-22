@@ -4,10 +4,9 @@
 #include <memory>
 #include <vector>
 
-#include "stmt/Stmt.h"
+#include "../stmt/Stmt.h"
+#include "../expr/Expr.h"
 #include "Token.h"
-
-using namespace TokenType;
 
 class Parser {
     private:
@@ -18,17 +17,22 @@ class Parser {
         Token peek();
         Token advance();
 
+        Token consume(TokenType::Type expectedType, std::string errorMsg);
+
         bool isAtEnd();
-        bool check(Type type);
-        bool match(Type type);
+        bool check(TokenType::Type type);
+        bool match(TokenType::Type type);
 
         std::unique_ptr<Stmt> declaration();
         std::unique_ptr<Stmt> statement();
+        std::unique_ptr<Stmt> assignmentStatement();
+
+        std::unique_ptr<Expr> expression();
 
     public:
         Parser(std::vector<Token>& tokens);
 
-        vector<std::unique_ptr<Stmt>> parse();
+        std::vector<std::unique_ptr<Stmt>> parse();
 };
 
 #endif

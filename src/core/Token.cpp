@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../include/Token.h"
+#include "../../include/core/Token.h"
 
 string Token::asString() {
     string result = TokenType::asStr(type) + " " + lexeme + " " + to_string(line);

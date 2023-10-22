@@ -11,8 +11,8 @@
 
 #include <iostream>
 
-#include "../include/Scanner.h"
-#include "../include/TokenType.h"
+#include "../../include/core/Scanner.h"
+#include "../../include/core/TokenType.h"
 
 using namespace TokenType;
 

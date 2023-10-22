@@ -2,7 +2,7 @@
 #define MASH_VARIABLE_H
 
 #include "Expr.h"
-#include "../Token.h"
+#include "../core/Token.h"
 
 class Variable : public Expr {
     private:

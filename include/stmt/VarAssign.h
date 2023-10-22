@@ -5,7 +5,7 @@
 
 #include "../expr/Expr.h"
 #include "Stmt.h"
-#include "../Token.h"
+#include "../core/Token.h"
 
 class VarAssign : public Stmt {
     private:

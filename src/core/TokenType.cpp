@@ -9,7 +9,7 @@
  * 
  */
 
-#include "../include/TokenType.h"
+#include "../../include/core/TokenType.h"
 
 std::unordered_map<int, std::string> mapping = {
     {0, "Left Paren"}, {1, "Right Paren"},

@@ -15,8 +15,8 @@
 #include <string>
 #include <vector>
 
-#include "../include/Token.h"
-#include "../include/Scanner.h"
+#include "../../include/core/Token.h"
+#include "../../include/core/Scanner.h"
 
 using namespace std;
 
