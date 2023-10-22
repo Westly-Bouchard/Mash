@@ -1,3 +1,14 @@
+/**
+ * @file Parser.h
+ * @author Westly Bouchard
+ * @brief Mash's recursive descent parser
+ * @version 0.1
+ * @date 2023-10-22
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef PARSER_H
 #define PARSER_H
 
@@ -16,6 +27,7 @@ class Parser {
         Token previous();
         Token peek();
         Token advance();
+        void retreat();
 
         Token consume(TokenType::Type expectedType, std::string errorMsg);
 

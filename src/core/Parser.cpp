@@ -203,7 +203,44 @@ std::unique_ptr<Stmt> Parser::assignmentStatement() {
     // checked all of the important ones, cause literally the only other thing it could be is an
     // assignment statement
 
-    
+    // Another shortcut we get from this is that the only possible lvalue we could ever have is just
+    // an identifier. This means that, to determine if the current statement is an assignment, all
+    // we have to do is check for an identifier followed by an equals sign
+
+    // If we match an identifier
+    if (match(Type::IDENTIFIER)) {
+        // If the next token is an equals sign, we will try to parse an assignment
+        if (check(Type::EQUAL)) {
+            // We grab the identifier token to construct the ast node later
+            Token name = previous();
+
+            // We consume the equals sign
+            consume(Type::EQUAL, "Expected equals `=` after identifier");
+
+            // Parse the rvalue as an expression
+            std::unique_ptr<Expr> expr = expression();
+
+            // Consume the semicolon at the end of the statement
+            consume(Type::SEMICOLON, "Expected semicolon `;` after expression");
+
+            // Construct the ast node and return it
+            return make_unique<VarAssign>(name, std::move(expr));
+        } else {
+            // If the nex token is not an equals sign, then we need to back-track, and try to parse
+            // an expresion statement
+
+            // To be honest I don't feel great about adding this function, as I could see it
+            // potentially causing a lot of problems. As this is a recursive descent parser, it's
+            // really not supposed to go backwards at all. We'll see if it breaks anything though ig
+            retreat();
+        }
+    }
+
+    // If we're at this point, we can be sure that the only thing left to attempt to parse is an
+    // expression statement AND that the current token is the same as it was at the beginning of the
+    // function. This is an important caveat to ensure that the expression is pared correctly
+    std::unique_ptr<Expr> expr = expression();
+    return make_unique<Expression>(std::move(expr));
 }
 
 Token Parser::consume(Type expectedType, string errorMsg) {
@@ -225,6 +262,10 @@ Token Parser::previous() {
 Token Parser::advance() {
     if (!isAtEnd()) current++;
     return previous();
+}
+
+void Parser::retreat() {
+    if (current > 0) current--;
 }
 
 bool Parser::match(Type type) {
