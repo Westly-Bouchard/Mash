@@ -1,5 +1,8 @@
 # Welcome to Mini Bash (Mash)!
 
+⚠️ This PDF was generated from a notion document, so some formatting items and links may not function as expected. For an optimal experience, please view the web version:
+[https://wcbouchard.notion.site/Mash-Mini-Bash-6ac7d512f7d44a979ff949cee4f2b052?pvs=4](https://www.notion.so/Mash-Mini-Bash-6ac7d512f7d44a979ff949cee4f2b052?pvs=21)
+
 # Problem Description
 
 I have often found myself wanting to automate small tasks around my computer, however I have never really found an easy enough way to do this (to me at least) that I actually go about implementing the automations. For this project I wanted to try my hand at writing an interpreter for a small language of my own design. Specifically, a language that feels kind of like c++ or java, but that has built in functionality for executing commands in the terminal and interacting with the filesystem. While these things are possible in c++ and java, I also wanted my language to be a scripting language in order for it to be easier to use.
