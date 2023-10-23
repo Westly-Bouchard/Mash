@@ -64,7 +64,7 @@ link: core expr stmt
 	@$(CXX) -o $(TARGET) $(CORE_OBJECTS) $(EXPR_OBJECTS) $(STMT_OBJECTS)
 
 core: $(CORE_OBJECTS)
-	@echo "[INFO]: Building Mash Core Ojbects"
+	@echo "[INFO]: Building Mash Core Objects"
 
 expr: $(EXPR_OBJECTS)
 	@echo "[INFO]: Building Mash Expr Objects"
