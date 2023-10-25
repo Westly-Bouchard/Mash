@@ -1,6 +1,6 @@
 /**
  * @file main.cpp
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief Contains the entry point for the Mash interpreter. Handles reading command line arguments,
  *        and passing data between different interpreter passes.
  * @version 0.1

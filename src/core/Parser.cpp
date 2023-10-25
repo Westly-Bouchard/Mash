@@ -1,6 +1,6 @@
 /**
  * @file Parser.cpp
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief The implementation for the Mash recursive descent parser
  * @version 0.1
  * @date 2023-10-12

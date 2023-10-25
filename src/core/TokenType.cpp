@@ -1,6 +1,6 @@
 /**
  * @file TokenType.cpp
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief Implementation of the token type enum and it's mapping to string
  * @version 0.1
  * @date 2023-10-07

@@ -1,6 +1,6 @@
 /**
  * @file Token.cpp
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief implementation for token type
  * @version 0.1
  * @date 2023-10-06
