@@ -1,3 +1,13 @@
+/**
+ * @file Grouping.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Visitable AST node for grouping expressions
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef GROUPING_H
 #define GROUPING_H
 
