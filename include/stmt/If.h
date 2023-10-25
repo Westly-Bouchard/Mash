@@ -1,3 +1,13 @@
+/**
+ * @file If.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Visitable AST node for if statements
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef IF_H
 #define IF_H
 

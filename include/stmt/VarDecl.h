@@ -1,3 +1,13 @@
+/**
+ * @file VarDecl.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Visitable AST node for variable declarations
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef VAR_DECL_H
 #define VAR_DECL_H
 

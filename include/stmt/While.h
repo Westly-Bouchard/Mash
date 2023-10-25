@@ -1,3 +1,13 @@
+/**
+ * @file While.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Visitable AST node for while statements
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef WHILE_H
 #define WHILE_H
 

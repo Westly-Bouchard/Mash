@@ -1,3 +1,13 @@
+/**
+ * @file Expression.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Visitable AST node for expression statements
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef EXPRESSION_H
 #define EXPRESSION_H
 
