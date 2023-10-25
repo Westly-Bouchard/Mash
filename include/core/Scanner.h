@@ -1,6 +1,6 @@
 /**
  * @file scanner.h
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief header for the Tokenizer component of the interpreter
  * @version 0.1
  * @date 2023-10-06

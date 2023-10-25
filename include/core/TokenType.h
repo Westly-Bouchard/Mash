@@ -1,6 +1,6 @@
 /**
  * @file tokenType.h
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief Enum for distinguishing types of tokens
  * @version 0.1
  * @date 2023-10-06

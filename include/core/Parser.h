@@ -1,14 +1,13 @@
 /**
  * @file Parser.h
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief Mash's recursive descent parser
  * @version 0.1
- * @date 2023-10-22
+ * @date 2023-10-25
  * 
  * @copyright Copyright (c) 2023
  * 
  */
-
 #ifndef PARSER_H
 #define PARSER_H
 

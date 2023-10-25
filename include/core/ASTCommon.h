@@ -1,3 +1,13 @@
+/**
+ * @file ASTCommon.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief All of the header files for the AST nodes
+ * @version 0.1
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
 #ifndef AST_COMMON_H
 #define AST_COMMON_H
 

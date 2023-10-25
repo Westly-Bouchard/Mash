@@ -1,6 +1,6 @@
 /**
  * @file Token.h
- * @author Westly Bouchard
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
  * @brief header for the Token type, used to store scanned source code
  * @version 0.1
  * @date 2023-10-06
