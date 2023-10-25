@@ -21,7 +21,6 @@ class Variable : public Expr {
     public:
         Variable(Token name);
 
-        std::any accept(ExprVisitor<std::any>& visitor) const override;
 };
 
 #endif

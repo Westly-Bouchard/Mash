@@ -13,13 +13,11 @@
 
 #include <any>
 
-#include "ExprVisitor.h"
+#include "../util/Visitable.hpp"
+#include "../util/Visitor.hpp"
 
-class Expr {
-    public:
-        virtual std::any accept(ExprVisitor<std::any>& visitor) const = 0;
+#include "../stmt/Stmt.h"
 
-        virtual ~Expr() = default;
-};
+class Expr : public VisitableImpl<Expr, Expr, Stmt> {};
 
 #endif

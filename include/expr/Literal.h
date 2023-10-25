@@ -14,7 +14,6 @@
 #include <any>
 
 #include "Expr.h"
-#include "ExprVisitor.h"
 
 class Literal : public Expr {
     private:
@@ -23,7 +22,6 @@ class Literal : public Expr {
     public:
         Literal(std::any value);
 
-        std::any accept(ExprVisitor<std::any>& visitor) const override;
 };
 
 #endif

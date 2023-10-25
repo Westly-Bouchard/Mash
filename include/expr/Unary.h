@@ -15,7 +15,6 @@
 #include <memory>
 
 #include "Expr.h"
-#include "ExprVisitor.h"
 #include "../core/Token.h"
 
 class Unary : public Expr {
@@ -26,7 +25,6 @@ class Unary : public Expr {
     public:
         Unary(Token opp, std::unique_ptr<Expr> right);
 
-        std::any accept(ExprVisitor<std::any>& visitor) const override;
 };
 
 #endif
