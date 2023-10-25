@@ -26,6 +26,8 @@ class VisitableImpl : public Visitable<Types...> {
         virtual void accept(Visitor<Types...>& visitor) {
             visitor.visit(static_cast<Derived&>(*this));
         }
+
+        virtual ~VisitableImpl() = default;
 };
 
 #endif

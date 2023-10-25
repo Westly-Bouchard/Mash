@@ -16,7 +16,7 @@
 #include "../util/Visitable.hpp"
 #include "../util/Visitor.hpp"
 
-#include "../stmt/Stmt.h"
+class Stmt;
 
 class Expr : public VisitableImpl<Expr, Expr, Stmt> {};
 

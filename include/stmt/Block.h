@@ -23,7 +23,6 @@ class Block : public Stmt {
     public:
         Block(std::vector<std::unique_ptr<Stmt>> statements);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

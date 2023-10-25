@@ -25,7 +25,6 @@ class VarAssign : public Stmt {
     public:
         VarAssign(Token name, std::unique_ptr<Expr> expr);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

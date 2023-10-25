@@ -23,7 +23,6 @@ class Echo : public Stmt {
     public:
         Echo(std::unique_ptr<Expr> expr);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

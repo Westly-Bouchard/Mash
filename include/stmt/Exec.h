@@ -24,7 +24,6 @@ class Exec : public Stmt {
     public:
         Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

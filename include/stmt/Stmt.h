@@ -11,14 +11,11 @@
 #ifndef STMT_H
 #define STMT_H
 
-#include <any>
+#include "../util/Visitor.hpp"
+#include "../util/Visitable.hpp"
 
-#include "StmtVisitor.h"
+class Expr;
 
-class Stmt {
-    public:
-        virtual ~Stmt() = default;
-        virtual std::any accept(StmtVisitor<std::any>& visitor) const = 0;
-};
+class Stmt : public VisitableImpl<Stmt, Expr, Stmt> {};
 
 #endif

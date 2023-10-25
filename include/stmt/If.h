@@ -29,7 +29,6 @@ class If : public Stmt {
             std::unique_ptr<Stmt> elseBranch
         );
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

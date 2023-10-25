@@ -23,7 +23,6 @@ class Expression : public Stmt {
     public:
         Expression(std::unique_ptr<Expr> expr);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif

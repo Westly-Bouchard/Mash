@@ -24,7 +24,6 @@ class For : public Stmt {
     public:
         For(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt);
 
-        std::any accept(StmtVisitor<std::any>& visitor) const override;
 };
 
 #endif
