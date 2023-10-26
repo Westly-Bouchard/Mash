@@ -12,7 +12,6 @@
 #ifndef UNARY_H
 #define UNARY_H
 
-#include <any>
 #include <memory>
 
 #include "Expr.h"

@@ -13,7 +13,7 @@
 
 #include "../../include/core/Token.h"
 
-string Token::asString() {
+string Token::asString() const {
     string result = TokenType::asStr(type) + " " + lexeme + " " + to_string(line);
 
     

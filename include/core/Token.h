@@ -42,7 +42,7 @@ class Token {
          * 
          * @return string containing info about the token 
          */
-        string asString();
+        string asString() const;
 };
 
 #endif

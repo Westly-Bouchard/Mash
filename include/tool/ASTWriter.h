@@ -59,6 +59,8 @@ class ASTWriter : public ExprVisitor, public StmtVisitor {
 
         int indent;
         string result;
+
+        string strFromIndent() const;
 };
 
 #endif

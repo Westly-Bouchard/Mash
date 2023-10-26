@@ -48,9 +48,9 @@ int main(int argc, char *argv[]) {
 
     vector<Token> *tokens = scanner.scanTokens();
 
-    for (auto t : *tokens) {
-        cout << t.asString() << endl;
-    }
+    // for (auto t : *tokens) {
+    //     cout << t.asString() << endl;
+    // }
 
     Parser parser(*tokens);
 

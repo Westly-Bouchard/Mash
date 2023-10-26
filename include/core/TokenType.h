@@ -41,6 +41,7 @@ namespace TokenType {
         // Reserved words
         TRUE, FALSE, IF, ELSE, FOR, WHILE, ECHO, EXEC,
 
+        // Types
         INT, DOUBLE, STRING_T, BOOLEAN,
 
         MASH_EOF

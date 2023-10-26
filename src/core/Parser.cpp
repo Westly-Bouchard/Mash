@@ -314,12 +314,14 @@ std::unique_ptr<Expr> Parser::unary() {
 }
 
 std::unique_ptr<Expr> Parser::primary() {
-    if (match(Type::FALSE)) return make_unique<Literal>(false);
-    if (match(Type::TRUE)) return make_unique<Literal>(true);
+    if (match(Type::FALSE)) return make_unique<Literal>(false, Type::BOOLEAN);
+    if (match(Type::TRUE)) return make_unique<Literal>(true, Type::BOOLEAN);
 
-    if (match(Type::NUMBER_DOUBLE) || match(Type::NUMBER_INT) || match(Type::STRING)) {
-        return make_unique<Literal>(previous().literal);
-    }
+    if (match(Type::NUMBER_DOUBLE)) return make_unique<Literal>(previous().literal, Type::DOUBLE);
+
+    if (match(Type::NUMBER_INT)) return make_unique<Literal>(previous().literal, Type::INT);
+
+    if (match(Type::STRING)) return make_unique<Literal>(previous().literal, Type::STRING_T);
 
     if (match(Type::LEFT_PAREN)) {
         std::unique_ptr<Expr> expr = expression();
