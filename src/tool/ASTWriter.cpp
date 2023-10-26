@@ -44,6 +44,8 @@ void ASTWriter::visit(const Binary& expr) {
 
    expr.right->accept(*this);
 
+   out << endl;
+
    indent -= 4;
 }
 
@@ -53,6 +55,8 @@ void ASTWriter::visit(const Grouping& expr) {
     indent += 4;
 
     expr.expr->accept(*this);
+
+    out << endl;
 
     indent -= 4;
 }
@@ -75,16 +79,22 @@ void ASTWriter::visit(const Literal& expr) {
         default:
             break;
     }
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Unary& expr) {
     out << strFromIndent() << expr.opp.asString();
 
     expr.right->accept(*this);
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Variable& expr) {
     out << strFromIndent() << expr.name.lexeme;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Block& stmt) {
@@ -97,6 +107,8 @@ void ASTWriter::visit(const Block& stmt) {
     }
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Echo& stmt) {
@@ -107,6 +119,8 @@ void ASTWriter::visit(const Echo& stmt) {
     stmt.expr->accept(*this);
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Exec& stmt) {
@@ -121,6 +135,8 @@ void ASTWriter::visit(const Exec& stmt) {
     }
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const Expression& stmt) {
@@ -131,6 +147,8 @@ void ASTWriter::visit(const Expression& stmt) {
     stmt.expr->accept(*this);
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const For& stmt) {
@@ -138,15 +156,17 @@ void ASTWriter::visit(const For& stmt) {
 
     indent += 4;
 
-    out << strFromIndent() << "Condition" << endl;
+    out << strFromIndent() << "Condition ";
 
     stmt.condition->accept(*this);
 
-    out << strFromIndent() << "Statement" << endl;
+    out << strFromIndent() << "Statement ";
 
     stmt.stmt->accept(*this);
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const If& stmt) {
@@ -154,21 +174,23 @@ void ASTWriter::visit(const If& stmt) {
 
     indent += 4;
 
-    out << strFromIndent() << "Condition" << endl;
+    out << strFromIndent() << "Condition ";
 
     stmt.condition->accept(*this);
 
-    out << strFromIndent() << "Then Branch" << endl;
+    out << strFromIndent() << "Then Branch ";
 
     stmt.thenBranch->accept(*this);
 
     if (stmt.elseBranch) {
-        out << strFromIndent() << "Else Branch" << endl;
+        out << strFromIndent() << "Else Branch ";
 
         stmt.elseBranch->accept(*this);
     }
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const VarAssign& stmt) {
@@ -183,6 +205,8 @@ void ASTWriter::visit(const VarAssign& stmt) {
     stmt.expr->accept(*this);
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const VarDecl& stmt) {
@@ -200,6 +224,8 @@ void ASTWriter::visit(const VarDecl& stmt) {
     }
 
     indent -= 4;
+
+    out << endl;
 }
 
 void ASTWriter::visit(const While& stmt) {
@@ -216,4 +242,6 @@ void ASTWriter::visit(const While& stmt) {
     stmt.stmt->accept(*this);
 
     indent -= 4;
+
+    out << endl;
 }
