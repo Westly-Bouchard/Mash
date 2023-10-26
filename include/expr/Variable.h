@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #ifndef MASH_VARIABLE_H
 #define MASH_VARIABLE_H
 

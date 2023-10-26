@@ -1,3 +1,14 @@
+/**
+ * @file ExprVisitor.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Base visitor for expressions
+ * @version 0.1
+ * @date 2023-10-26
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef EXPR_VISITOR_H
 #define EXPR_VISITOR_H
 

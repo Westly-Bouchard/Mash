@@ -8,10 +8,13 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/expr/Binary.h"
 
-Binary::Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right) : 
-                left(std::move(left)), opp(opp), right(std::move(right)) {}
+using namespace std;
+
+Binary::Binary(unique_ptr<Expr> left, Token opp, unique_ptr<Expr> right) : 
+                left(move(left)), opp(opp), right(move(right)) {}
 
 void Binary::accept(ExprVisitor& visitor) const {
     visitor.visit(*this);

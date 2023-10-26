@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/While.h"
 
 While::While(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt) :

@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/Block.h"
 
 Block::Block(std::vector<std::unique_ptr<Stmt>> statements) : statements(std::move(statements)) {}

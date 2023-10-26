@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #ifndef AST_COMMON_H
 #define AST_COMMON_H
 

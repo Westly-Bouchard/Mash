@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/expr/Literal.h"
 
 Literal::Literal(std::any value) : value(value) {}

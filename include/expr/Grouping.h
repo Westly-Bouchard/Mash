@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #ifndef GROUPING_H
 #define GROUPING_H
 

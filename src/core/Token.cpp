@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include <cstring>
 
 #include "../../include/core/Token.h"

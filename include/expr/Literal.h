@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #ifndef LITERAL_H
 #define LITERAL_H
 

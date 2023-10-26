@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/VarAssign.h"
 
 VarAssign::VarAssign(Token name, std::unique_ptr<Expr> expr) : name(name), expr(std::move(expr)) {}

@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/Echo.h"
 
 Echo::Echo(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}

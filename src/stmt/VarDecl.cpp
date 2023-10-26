@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/VarDecl.h"
 
 VarDecl::VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr) :

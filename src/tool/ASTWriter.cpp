@@ -16,7 +16,12 @@ using namespace std;
 ASTWriter::ASTWriter(vector<unique_ptr<Stmt>>& ast, ostream& out) : out(out), ast(ast) {};
 
 void ASTWriter::write() {
-
+    indent = 0;
+    result = "";
+    
+    for (const auto& stmt : ast) {
+        stmt->accept(*this);
+    }
 }
 
 void ASTWriter::visit(const Binary& expr) {

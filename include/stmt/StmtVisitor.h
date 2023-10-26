@@ -1,6 +1,18 @@
+/**
+ * @file StmtVisitor.h
+ * @author Westly Bouchard (westly_bouchard@mines.edu)
+ * @brief Base visitor for statements
+ * @version 0.1
+ * @date 2023-10-26
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #ifndef STMT_VISITOR_H
 #define STMT_VISITOR_H
 
+// Define classes here to prevent circular inclusion
 class Block;
 class Echo;
 class Exec;

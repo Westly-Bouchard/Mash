@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/expr/Variable.h"
 
 Variable::Variable(Token name) : name(name) {}

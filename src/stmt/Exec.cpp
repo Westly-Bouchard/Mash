@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/stmt/Exec.h"
 
 Exec::Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result) :

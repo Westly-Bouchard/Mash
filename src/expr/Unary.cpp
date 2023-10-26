@@ -8,6 +8,7 @@
  * @copyright Copyright (c) 2023
  * 
  */
+
 #include "../../include/expr/Unary.h"
 
 Unary::Unary(Token opp, std::unique_ptr<Expr> right) : opp(opp), right(std::move(right)) {}
