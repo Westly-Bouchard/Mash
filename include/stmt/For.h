@@ -17,11 +17,10 @@
 #include "Stmt.h"
 
 class For : public Stmt {
-    private:
+    public:
         std::unique_ptr<Expr> condition;
         std::unique_ptr<Stmt> stmt;
 
-    public:
         For(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt);
 
         void accept(StmtVisitor& visitor) const override;

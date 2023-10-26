@@ -17,10 +17,9 @@
 #include "Stmt.h"
 
 class Block : public Stmt {
-    private:
+    public:
         std::vector<std::unique_ptr<Stmt>> statements;
 
-    public:
         Block(std::vector<std::unique_ptr<Stmt>> statements);
 
         void accept(StmtVisitor& visitor) const override;

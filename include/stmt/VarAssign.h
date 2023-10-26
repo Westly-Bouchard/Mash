@@ -18,11 +18,10 @@
 #include "../core/Token.h"
 
 class VarAssign : public Stmt {
-    private:
+    public:
         Token name;
         std::unique_ptr<Expr>expr;
 
-    public:
         VarAssign(Token name, std::unique_ptr<Expr> expr);
 
         void accept(StmtVisitor& visitor) const override;

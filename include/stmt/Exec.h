@@ -17,11 +17,10 @@
 #include "Stmt.h"
 
 class Exec : public Stmt {
-    private:
+    public:
         std::unique_ptr<Expr> toRun;
         std::unique_ptr<Expr> result;
 
-    public:
         Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result);
 
         void accept(StmtVisitor& visitor) const override;

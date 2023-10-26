@@ -17,12 +17,11 @@
 #include "Stmt.h"
 
 class If : public Stmt {
-    private:
+    public:
         std::unique_ptr<Expr> condition;
         std::unique_ptr<Stmt> thenBranch;
         std::unique_ptr<Stmt> elseBranch;
 
-    public:
         If(
             std::unique_ptr<Expr> condition,
             std::unique_ptr<Stmt> thenBranch,

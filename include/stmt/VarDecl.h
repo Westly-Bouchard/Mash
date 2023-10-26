@@ -19,12 +19,11 @@
 #include "Stmt.h"
 
 class VarDecl : public Stmt {
-    private:
+    public:
         TokenType::Type type;
         Token name;
         std::unique_ptr<Expr> expr;
 
-    public:
         VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr);
 
         void accept(StmtVisitor& visitor) const override;

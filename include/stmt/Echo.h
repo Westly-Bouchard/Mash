@@ -17,10 +17,9 @@
 #include "Stmt.h"
 
 class Echo : public Stmt {
-    private:
+    public:
         std::unique_ptr<Expr> expr;
 
-    public:
         Echo(std::unique_ptr<Expr> expr);
 
         void accept(StmtVisitor& visitor) const override;
