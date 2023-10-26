@@ -22,6 +22,8 @@ class Literal : public Expr {
     public:
         Literal(std::any value);
 
+        std::any getValue() const;
+
         void accept(ExprVisitor& visitor) const override;
 };
 

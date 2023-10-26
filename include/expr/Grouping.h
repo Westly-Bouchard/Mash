@@ -22,6 +22,8 @@ class Grouping : public Expr {
     public:
         Grouping(std::unique_ptr<Expr> expr);
 
+        std::unique_ptr<Expr> getExpr() const;
+
         void accept(ExprVisitor& visitor) const override;
 };
 

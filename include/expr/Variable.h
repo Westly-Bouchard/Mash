@@ -21,6 +21,8 @@ class Variable : public Expr {
     public:
         Variable(Token name);
 
+        Token getName() const;
+
         void accept(ExprVisitor& visitor) const override;
 };
 
