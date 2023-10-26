@@ -11,3 +11,7 @@
 #include "../../include/expr/Grouping.h"
 
 Grouping::Grouping(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
+
+void Grouping::accept(ExprVisitor& visitor) const {
+    visitor.visit(*this);
+}

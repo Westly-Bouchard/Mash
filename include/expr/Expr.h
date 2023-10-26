@@ -11,13 +11,14 @@
 #ifndef EXPR_H
 #define EXPR_H
 
-#include <any>
-
-#include "../util/Visitable.hpp"
-#include "../util/Visitor.hpp"
+#include "ExprVisitor.h"
 
 class Stmt;
 
-class Expr : public VisitableImpl<Expr, Expr, Stmt> {};
+class Expr {
+    public:
+        virtual ~Expr() = default;
+        virtual void accept(ExprVisitor& visitor) const = 0;
+};
 
 #endif

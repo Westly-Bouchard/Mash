@@ -18,3 +18,7 @@ If::If(
         condition(std::move(condition)),
         thenBranch(std::move(thenBranch)),
         elseBranch(std::move(elseBranch)) {}
+
+void If::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}

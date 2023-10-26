@@ -11,3 +11,7 @@
 #include "../../include/stmt/Block.h"
 
 Block::Block(std::vector<std::unique_ptr<Stmt>> statements) : statements(std::move(statements)) {}
+
+void Block::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}

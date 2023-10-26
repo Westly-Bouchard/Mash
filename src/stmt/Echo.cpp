@@ -11,3 +11,7 @@
 #include "../../include/stmt/Echo.h"
 
 Echo::Echo(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
+
+void Echo::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}

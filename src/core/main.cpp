@@ -12,9 +12,12 @@
 
 #include <iostream>
 #include <fstream>
+#include <memory>
 #include <string>
 #include <vector>
 
+#include "../../include/tool/ASTWriter.h"
+#include "../../include/core/Parser.h"
 #include "../../include/core/Token.h"
 #include "../../include/core/Scanner.h"
 
@@ -41,11 +44,19 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-    Scanner *scanner = new Scanner(sourceFile);
+    Scanner scanner(sourceFile);
 
-    vector<Token> *tokens = scanner->scanTokens();
+    vector<Token> *tokens = scanner.scanTokens();
 
     for (auto t : *tokens) {
         cout << t.asString() << endl;
     }
+
+    Parser parser(*tokens);
+
+    vector<unique_ptr<Stmt>> ast = parser.parse();
+
+    ASTWriter debug(ast, cout);
+
+    debug.write();
 }

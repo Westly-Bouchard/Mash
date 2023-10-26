@@ -25,6 +25,7 @@ class Unary : public Expr {
     public:
         Unary(Token opp, std::unique_ptr<Expr> right);
 
+        void accept(ExprVisitor& visitor) const override;
 };
 
 #endif

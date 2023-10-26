@@ -23,6 +23,7 @@ SRC_PATH = src
 CORE_PATH = core
 EXPR_PATH = expr
 STMT_PATH = stmt
+TOOL_PATH = tool
 ##--------------------------------------------------------------------------------------------------
 CORE_SRC_PATH = $(SRC_PATH)/$(CORE_PATH)
 CORE_OBJ_PATH = $(OBJ_DEST)/$(CORE_PATH)
@@ -58,10 +59,21 @@ $(STMT_OBJ_PATH)/%.o: $(STMT_SRC_PATH)/%.cpp
 	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
+TOOL_SRC_PATH = $(SRC_PATH)/$(TOOL_PATH)
+TOOL_OBJ_PATH = $(OBJ_DEST)/$(TOOL_PATH)
 
-link: core expr stmt
+TOOL_SRC_FILES = ASTWriter.cpp
+
+TOOL_OBJECTS = $(TOOL_SRC_FILES:%.cpp=$(TOOL_OBJ_PATH)/%.o)
+
+$(TOOL_OBJ_PATH)/%.o: $(TOOL_SRC_PATH)/%.cpp
+	@echo "    Building $@"
+	@$(CXX) $(CXXFLAGS) -o $@ -c $<
+##--------------------------------------------------------------------------------------------------
+
+link: core expr stmt tool
 	@echo "[INFO]: Linking Objects"
-	@$(CXX) -o $(TARGET) $(CORE_OBJECTS) $(EXPR_OBJECTS) $(STMT_OBJECTS)
+	@$(CXX) -o $(TARGET) $(CORE_OBJECTS) $(EXPR_OBJECTS) $(STMT_OBJECTS) $(TOOL_OBJECTS)
 
 core: $(CORE_OBJECTS)
 	@echo "[INFO]: Building Mash Core Objects"
@@ -72,14 +84,18 @@ expr: $(EXPR_OBJECTS)
 stmt: $(STMT_OBJECTS)
 	@echo "[INFO]: Building Mash Stmt Objects"
 
+tool: $(TOOL_OBJECTS)
+	@echo "[INFO]: Building Mash Tool Objects"
+
 setup:
 	@mkdir -p $(DEST)
 	@mkdir -p $(OBJ_DEST)
 	@mkdir -p $(OBJ_DEST)/$(CORE_PATH)
 	@mkdir -p $(OBJ_DEST)/$(EXPR_PATH)
 	@mkdir -p $(OBJ_DEST)/$(STMT_PATH)
+	@mkdir -p $(OBJ_DEST)/$(TOOL_PATH)
 
 clean:
 	@rm -fr $(DEST)
 
-.PHONY: clean all setup core expr stmt makemash
+.PHONY: clean all setup core expr stmt tool makemash

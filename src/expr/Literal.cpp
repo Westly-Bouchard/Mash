@@ -10,6 +10,8 @@
  */
 #include "../../include/expr/Literal.h"
 
-Literal::Literal(std::any value) {
-    this->value = value;
+Literal::Literal(std::any value) : value(value) {}
+
+void Literal::accept(ExprVisitor& visitor) const {
+    visitor.visit(*this);
 }

@@ -22,6 +22,7 @@ class Literal : public Expr {
     public:
         Literal(std::any value);
 
+        void accept(ExprVisitor& visitor) const override;
 };
 
 #endif

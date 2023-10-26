@@ -11,3 +11,7 @@
 #include "../../include/expr/Variable.h"
 
 Variable::Variable(Token name) : name(name) {}
+
+void Variable::accept(ExprVisitor& visitor) const {
+    visitor.visit(*this);
+}

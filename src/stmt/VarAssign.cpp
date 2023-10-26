@@ -11,3 +11,7 @@
 #include "../../include/stmt/VarAssign.h"
 
 VarAssign::VarAssign(Token name, std::unique_ptr<Expr> expr) : name(name), expr(std::move(expr)) {}
+
+void VarAssign::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}

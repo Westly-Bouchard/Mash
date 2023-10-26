@@ -11,3 +11,7 @@
 #include "../../include/expr/Unary.h"
 
 Unary::Unary(Token opp, std::unique_ptr<Expr> right) : opp(opp), right(std::move(right)) {}
+
+void Unary::accept(ExprVisitor& visitor) const {
+    visitor.visit(*this);
+}

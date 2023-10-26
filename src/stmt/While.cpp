@@ -12,3 +12,7 @@
 
 While::While(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt) :
               condition(std::move(condition)), stmt(std::move(stmt)) {}
+
+void While::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}

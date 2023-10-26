@@ -24,6 +24,8 @@ class Binary : public Expr {
 
     public:
         Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right);
+
+        void accept(ExprVisitor& visitor) const override;
 };
 
 #endif

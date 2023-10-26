@@ -11,3 +11,7 @@
 #include "../../include/stmt/Expression.h"
 
 Expression::Expression(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
+
+void Expression::accept(StmtVisitor& visitor) const {
+    visitor.visit(*this);
+}
