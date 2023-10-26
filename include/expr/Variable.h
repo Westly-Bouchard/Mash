@@ -15,13 +15,10 @@
 #include "../core/Token.h"
 
 class Variable : public Expr {
-    private:
+    public:
         Token name;
 
-    public:
         Variable(Token name);
-
-        Token getName() const;
 
         void accept(ExprVisitor& visitor) const override;
 };

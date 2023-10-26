@@ -16,13 +16,10 @@
 #include "Expr.h"
 
 class Literal : public Expr {
-    private:
+    public:
         std::any value;
 
-    public:
         Literal(std::any value);
-
-        std::any getValue() const;
 
         void accept(ExprVisitor& visitor) const override;
 };

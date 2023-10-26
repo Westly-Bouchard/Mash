@@ -16,13 +16,10 @@
 #include "Expr.h"
 
 class Grouping : public Expr {
-    private:
+    public:
         std::unique_ptr<Expr> expr;
 
-    public:
         Grouping(std::unique_ptr<Expr> expr);
-
-        std::unique_ptr<Expr> getExpr() const;
 
         void accept(ExprVisitor& visitor) const override;
 };
