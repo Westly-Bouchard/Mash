@@ -13,6 +13,9 @@
 
 #include "../../include/core/ASTCommon.h"
 
+#include <iostream>
+#include <stdexcept>
+
 using namespace TokenType;
 
 Parser::Parser(std::vector<Token>& tokens) : tokens(tokens), current(0) {}
@@ -323,6 +326,8 @@ std::unique_ptr<Expr> Parser::primary() {
 
     if (match(Type::STRING)) return make_unique<Literal>(previous().literal, Type::STRING_T);
 
+    if (match(Type::IDENTIFIER)) return make_unique<Variable>(previous());
+
     if (match(Type::LEFT_PAREN)) {
         std::unique_ptr<Expr> expr = expression();
         consume(Type::RIGHT_PAREN, "Expected right paren `)` after expression");
@@ -336,6 +341,9 @@ Token Parser::consume(Type expectedType, string errorMsg) {
     }
 
     // Handle syntax error
+
+    std::cout << errorMsg;
+    throw std::runtime_error(errorMsg);
 }
 
 Token Parser::peek() {
