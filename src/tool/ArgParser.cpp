@@ -11,6 +11,7 @@
 
 #include "../../include/tool/ArgParser.h"
 
+#include <cstring>
 #include <iostream>
 
 using namespace std;
