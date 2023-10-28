@@ -40,7 +40,7 @@ void ASTWriter::visit(const Binary& expr) {
 
    expr.left->accept(*this);
 
-   out << strFromIndent() << "Operator: " << expr.opp.asString() << endl;
+   out << strFromIndent() << "Operator: " << expr.opp.lexeme << endl;
 
    expr.right->accept(*this);
 
@@ -84,7 +84,7 @@ void ASTWriter::visit(const Literal& expr) {
 }
 
 void ASTWriter::visit(const Unary& expr) {
-    out << strFromIndent() << expr.opp.asString();
+    out << strFromIndent() << expr.opp.lexeme;
 
     expr.right->accept(*this);
 
