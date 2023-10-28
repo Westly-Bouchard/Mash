@@ -189,6 +189,8 @@ std::unique_ptr<Stmt> Parser::statement() {
             statements.push_back(declaration());
         }
 
+        consume(Type::RIGHT_BRACE, "Expected right brace '}' after block statement");
+
         // Construct the ast node and return it
         return make_unique<Block>(std::move(statements));
     }
@@ -333,6 +335,8 @@ std::unique_ptr<Expr> Parser::primary() {
         consume(Type::RIGHT_PAREN, "Expected right paren `)` after expression");
         return make_unique<Grouping>(std::move(expr));
     }
+
+    throw std::runtime_error(tokens.at(current).asString());
 }
 
 Token Parser::consume(Type expectedType, string errorMsg) {
