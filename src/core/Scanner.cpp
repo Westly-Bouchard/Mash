@@ -131,7 +131,7 @@ std::vector<Token>* Scanner::scanTokens() {
                     tokens.push_back(Token(Type::BANG_EQUAL, "!=", nullptr, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::BANG, "=", nullptr, line));
+                    tokens.push_back(Token(Type::BANG, "!", nullptr, line));
                 }
                 break;
             }
