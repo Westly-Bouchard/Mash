@@ -23,12 +23,33 @@
 
 using namespace std;
 
+void displayHelpMenu();
+
+/**
+ * Mash Command Line Arguments
+ * 
+ * Basic usage: $ mash <args> `filename`
+ * 
+ * `-s` DEBUG: Print token stream from scanner
+ * `-p` DEBUG: Print AST generated from parser
+ * 
+ * `-help` Display help menu
+ */
 int main(int argc, char *argv[]) {
 
     // If we didn't get an argument then we exit the program and notify the user
     if (argc < 2) {
-        cout << "Usage: mash `filename`" << endl;
+        cout << "Usage: mash `filename`.mash" << endl;
+        cout << "Run `mash -help for full argument list" << endl;
         return 0;
+    } else if (argc == 2) {
+        // If we received two arguments, we either want to run the file or display the help menu
+
+        // If we have a file the length of the argument will be greater than 5 characters because
+        // it will have to be some string + `.mash`
+        if (strlen(argv[1]) > 5) {
+
+        } else if (strcmp(argv[1]))
     }
 
     // Grab the path of the file the user wants to execute
