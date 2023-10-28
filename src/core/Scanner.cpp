@@ -142,7 +142,7 @@ std::vector<Token>* Scanner::scanTokens() {
                     tokens.push_back(Token(Type::GREATER_EQUAL, ">=", nullptr, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::GREATER, "=", nullptr, line));
+                    tokens.push_back(Token(Type::GREATER, ">", nullptr, line));
                 }
                 break;
             }
@@ -152,7 +152,7 @@ std::vector<Token>* Scanner::scanTokens() {
                     tokens.push_back(Token(Type::LESS_EQUAL, "<=", nullptr, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::LESS, "=", nullptr, line));
+                    tokens.push_back(Token(Type::LESS, "<", nullptr, line));
                 }
                 break;
             }
