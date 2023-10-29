@@ -17,6 +17,7 @@
 #include <vector>
 
 #include "../../include/tool/ASTWriter.h"
+#include "../../include/tool/ArgParser.h"
 #include "../../include/core/Parser.h"
 #include "../../include/core/Token.h"
 #include "../../include/core/Scanner.h"
@@ -37,32 +38,68 @@ void displayHelpMenu();
  */
 int main(int argc, char *argv[]) {
 
-    // Grab the path of the file the user wants to execute
-    string sourcePath = argv[1];
+    optional<ArgParser::MashArgs> args = ArgParser::parseArgs(argc, argv);
 
-    // Create an ifstream object to read from the file
-    ifstream sourceFile;
-    sourceFile.open(sourcePath, ios::in);
+    if (args) {
+        ifstream sourceFile;
+        sourceFile.open(args.value().filename);
 
-    // If for some reason we weren't able to open the file, 
-    if (sourceFile.fail()) {
-        cerr << "Failed to open input file: " + sourcePath << endl;
-        return -1;
+        if (sourceFile.fail()) {
+            cerr << "Failed to open input file: " << args.value().filename << endl;
+            return -1;
+        }
+
+        Scanner scanner(sourceFile);
+
+        vector<Token> *tokens = scanner.scanTokens();
+
+        if (args.value().scannerDebug) {
+            cout << "Tokens Scanned:" << endl;
+            for (auto t: *tokens) {
+                cout << t.asString() << endl;
+            }
+        }
+
+        Parser parser(*tokens);
+
+        vector<unique_ptr<Stmt>> ast = parser.parse();
+
+        if (args.value().parserDebug) {
+            ASTWriter debug(ast, cout);
+
+            debug.write();
+        }
+
+    } else {
+        return 0;
     }
 
-    Scanner scanner(sourceFile);
+    // // Grab the path of the file the user wants to execute
+    // string sourcePath = argv[1];
 
-    vector<Token> *tokens = scanner.scanTokens();
+    // // Create an ifstream object to read from the file
+    // ifstream sourceFile;
+    // sourceFile.open(sourcePath, ios::in);
 
-    // for (auto t : *tokens) {
-    //     cout << t.asString() << endl;
+    // // If for some reason we weren't able to open the file, 
+    // if (sourceFile.fail()) {
+    //     cerr << "Failed to open input file: " + sourcePath << endl;
+    //     return -1;
     // }
 
-    Parser parser(*tokens);
+    // Scanner scanner(sourceFile);
 
-    vector<unique_ptr<Stmt>> ast = parser.parse();
+    // vector<Token> *tokens = scanner.scanTokens();
 
-    ASTWriter debug(ast, cout);
+    // // for (auto t : *tokens) {
+    // //     cout << t.asString() << endl;
+    // // }
 
-    debug.write();
+    // Parser parser(*tokens);
+
+    // vector<unique_ptr<Stmt>> ast = parser.parse();
+
+    // ASTWriter debug(ast, cout);
+
+    // debug.write();
 }

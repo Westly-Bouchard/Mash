@@ -17,16 +17,16 @@
 
 namespace ArgParser {
 
-    const string info = "Mash (Mini-Bash): A small language for automating tasks around your computer\
+    const std::string info = "Mash (Mini-Bash): A small language for automating tasks around your computer\
                         \nVersion: 0.1";
 
-    const string helpMenu;
+    const std::string helpMenu = "Usage: mash <args> filename \nArgs:\n\t-s Print Scanner Debug\n\t-p Print Parser Debug";
 
     class MashArgs {
         public:
+            std::string filename;
             bool scannerDebug;
             bool parserDebug;
-            std::string filename;
 
             MashArgs(std::string filename, bool scannerDebug, bool parserDebug);
             MashArgs(std::string filename);
