@@ -33,68 +33,57 @@ string ASTWriter::strFromIndent() const {
     return temp;
 }
 
+/*
+ * Expressions will be printed inline
+*/
 void ASTWriter::visit(const Binary& expr) {
-   out << strFromIndent() << "Binary Expression" << endl;
-
-   indent += 4;
+   out << "Binary Expression: ";
 
    expr.left->accept(*this);
 
-   out << strFromIndent() << "Operator: " << expr.opp.lexeme << endl;
+   out << " " << expr.opp.lexeme << " ";
 
    expr.right->accept(*this);
-
-   out << endl;
-
-   indent -= 4;
 }
 
 void ASTWriter::visit(const Grouping& expr) {
-    out << strFromIndent() << "Grouping Expression" << endl;
-
-    indent += 4;
+    out << strFromIndent() << "Grouping Expression: ";
 
     expr.expr->accept(*this);
-
-    out << endl;
-
-    indent -= 4;
 }
 
 void ASTWriter::visit(const Literal& expr) {
     switch (expr.type) {
         case Type::DOUBLE:
-            out << strFromIndent() << any_cast<double>(expr.value);
+            out << any_cast<double>(expr.value);
             break;
 
         case Type::INT:
-            out << strFromIndent() << any_cast<int>(expr.value);
+            out << any_cast<int>(expr.value);
             break;
 
         case Type::STRING_T:
-            out << strFromIndent() << any_cast<string>(expr.value);
+            out << any_cast<string>(expr.value);
+            break;
+
+        case Type::BOOLEAN:
+            out << (any_cast<bool>(expr.value) ? "true" : "false");
             break;
 
         // Unreachable
         default:
             break;
     }
-
-    out << endl;
 }
 
 void ASTWriter::visit(const Unary& expr) {
-    out << strFromIndent() << expr.opp.lexeme;
+    out << expr.opp.lexeme;
 
     expr.right->accept(*this);
-
-    out << endl;
 }
 
 void ASTWriter::visit(const Variable& expr) {
     out << strFromIndent() << expr.name.lexeme;
-
-    out << endl;
 }
 
 void ASTWriter::visit(const Block& stmt) {
@@ -174,18 +163,32 @@ void ASTWriter::visit(const If& stmt) {
 
     indent += 4;
 
-    out << strFromIndent() << "Condition ";
+    out << strFromIndent() << "Condition" << endl;
+
+    indent += 4;
+
+    cout << strFromIndent();
 
     stmt.condition->accept(*this);
 
-    out << strFromIndent() << "Then Branch ";
+    indent -= 4;
+
+    out << endl << strFromIndent() << "Then Branch" << endl;
+
+    indent += 4;
 
     stmt.thenBranch->accept(*this);
 
+    indent -= 4;
+
     if (stmt.elseBranch) {
-        out << strFromIndent() << "Else Branch ";
+        out << strFromIndent() << "Else Branch" << endl;
+
+        indent += 4;
 
         stmt.elseBranch->accept(*this);
+
+        indent -= 4;
     }
 
     indent -= 4;
@@ -214,7 +217,19 @@ void ASTWriter::visit(const VarDecl& stmt) {
 
     indent += 4;
 
-    out << strFromIndent() << "Type " << TokenType::asStr(stmt.type) << endl;
+    string typeString = "";
+    
+    switch (stmt.type) {
+        case TokenType::Type::INT: typeString = "int"; break;
+        case TokenType::Type::DOUBLE: typeString = "double"; break;
+        case TokenType::Type::BOOLEAN: typeString = "boolean"; break;
+        case TokenType::Type::STRING_T: typeString = "string"; break;
+
+        // Unreachable
+        default: break;
+    }
+
+    out << strFromIndent() << "Type " << typeString << endl;
 
     out << strFromIndent() << "Identifier " << stmt.name.lexeme << endl;
 

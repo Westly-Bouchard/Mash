@@ -73,33 +73,4 @@ int main(int argc, char *argv[]) {
     } else {
         return 0;
     }
-
-    // // Grab the path of the file the user wants to execute
-    // string sourcePath = argv[1];
-
-    // // Create an ifstream object to read from the file
-    // ifstream sourceFile;
-    // sourceFile.open(sourcePath, ios::in);
-
-    // // If for some reason we weren't able to open the file, 
-    // if (sourceFile.fail()) {
-    //     cerr << "Failed to open input file: " + sourcePath << endl;
-    //     return -1;
-    // }
-
-    // Scanner scanner(sourceFile);
-
-    // vector<Token> *tokens = scanner.scanTokens();
-
-    // // for (auto t : *tokens) {
-    // //     cout << t.asString() << endl;
-    // // }
-
-    // Parser parser(*tokens);
-
-    // vector<unique_ptr<Stmt>> ast = parser.parse();
-
-    // ASTWriter debug(ast, cout);
-
-    // debug.write();
 }

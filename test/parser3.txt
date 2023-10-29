@@ -1,1 +1,7 @@
-if (!b) echo("Hello World");
+if (true == true) {
+    int a = 1;
+    a = 2;
+    echo(a);
+} else {
+    echo("hello");
+}
