@@ -58,8 +58,7 @@ class ASTWriter : public ExprVisitor, public StmtVisitor {
         std::vector<std::unique_ptr<Stmt>>& ast;
 
         int indent;
-        string result;
-
+        
         string strFromIndent() const;
 };
 

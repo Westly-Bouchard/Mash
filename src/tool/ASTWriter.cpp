@@ -1,7 +1,7 @@
 /**
  * @file ASTWriter.cpp
  * @author Westly Bouchard (westly_bouchard@mines.edu)
- * @brief implementation for writing ASTs to ostreams
+ * @brief implementation for writing ASTs to out streams
  * @version 0.1
  * @date 2023-10-25
  * 
@@ -18,7 +18,6 @@ ASTWriter::ASTWriter(vector<unique_ptr<Stmt>>& ast, ostream& out) : out(out), as
 
 void ASTWriter::write() {
     indent = 0;
-    result = "";
     
     for (const auto& stmt : ast) {
         stmt->accept(*this);
@@ -47,7 +46,7 @@ void ASTWriter::visit(const Binary& expr) {
 }
 
 void ASTWriter::visit(const Grouping& expr) {
-    out << strFromIndent() << "Grouping Expression: ";
+    out << "Grouping Expression: ";
 
     expr.expr->accept(*this);
 }
@@ -63,7 +62,7 @@ void ASTWriter::visit(const Literal& expr) {
             break;
 
         case Type::STRING_T:
-            out << any_cast<string>(expr.value);
+            out << "\"" << any_cast<string>(expr.value) << "\"";
             break;
 
         case Type::BOOLEAN:
@@ -83,7 +82,7 @@ void ASTWriter::visit(const Unary& expr) {
 }
 
 void ASTWriter::visit(const Variable& expr) {
-    out << strFromIndent() << expr.name.lexeme;
+    out << "Variable Reference: " << expr.name.lexeme;
 }
 
 void ASTWriter::visit(const Block& stmt) {
@@ -93,6 +92,7 @@ void ASTWriter::visit(const Block& stmt) {
 
     for (const auto& st : stmt.statements) {
         st->accept(*this);
+        out << endl;
     }
 
     indent -= 4;
@@ -105,10 +105,13 @@ void ASTWriter::visit(const Echo& stmt) {
 
     indent += 4;
 
+    out << strFromIndent() << "To Print: ";
+
     stmt.expr->accept(*this);
 
     indent -= 4;
 
+    out << endl;
     out << endl;
 }
 
@@ -117,14 +120,18 @@ void ASTWriter::visit(const Exec& stmt) {
 
     indent += 4;
 
+    out << strFromIndent() << "To Run: ";
+
     stmt.toRun->accept(*this);
 
     if (stmt.result) {
+        out << endl << "Store Result In: ";
         stmt.result->accept(*this);
     }
 
     indent -= 4;
 
+    out << endl;
     out << endl;
 }
 
@@ -132,6 +139,8 @@ void ASTWriter::visit(const Expression& stmt) {
     out << strFromIndent() << "Expression Statement" << endl;
 
     indent += 4;
+
+    out << "Expression: ";
 
     stmt.expr->accept(*this);
 
@@ -145,13 +154,23 @@ void ASTWriter::visit(const For& stmt) {
 
     indent += 4;
 
-    out << strFromIndent() << "Condition ";
+    out << strFromIndent() << "Condition" << endl;
+
+    indent += 4;
+
+    out << strFromIndent();
 
     stmt.condition->accept(*this);
 
-    out << strFromIndent() << "Statement ";
+    indent -= 4;
+
+    out << endl << strFromIndent() << "Statement" << endl;
+
+    indent += 4;
 
     stmt.stmt->accept(*this);
+
+    indent -= 4;
 
     indent -= 4;
 
@@ -167,7 +186,7 @@ void ASTWriter::visit(const If& stmt) {
 
     indent += 4;
 
-    cout << strFromIndent();
+    out << strFromIndent();
 
     stmt.condition->accept(*this);
 
@@ -229,16 +248,18 @@ void ASTWriter::visit(const VarDecl& stmt) {
         default: break;
     }
 
-    out << strFromIndent() << "Type " << typeString << endl;
+    out << strFromIndent() << "Type: " << typeString << endl;
 
-    out << strFromIndent() << "Identifier " << stmt.name.lexeme << endl;
+    out << strFromIndent() << "Identifier: " << stmt.name.lexeme << endl;
 
     if (stmt.expr) {
-        out << strFromIndent() << "Initializer ";
+        out << strFromIndent() << "Initializer: ";
         stmt.expr->accept(*this);
     }
 
     indent -= 4;
+
+    out << endl;
 
     out << endl;
 }
