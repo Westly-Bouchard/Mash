@@ -15,10 +15,11 @@
 #include "../../include/core/TokenType.h"
 
 using namespace TokenType;
+using namespace std;
 
-Scanner::Scanner(std::ifstream& source) : source(source) {}
+Scanner::Scanner(ifstream& source) : source(source) {}
 
-std::map<std::string, Type> Scanner::keywords = {
+map<string, Type> Scanner::keywords = {
     {"true", TRUE},
     {"false", FALSE},
     {"if", IF},
@@ -33,7 +34,7 @@ std::map<std::string, Type> Scanner::keywords = {
     {"boolean", BOOLEAN},
 };
 
-std::vector<Token>* Scanner::scanTokens() {
+vector<Token>* Scanner::scanTokens() {
 
     int line = 1;
 
@@ -59,39 +60,39 @@ std::vector<Token>* Scanner::scanTokens() {
 
             // Single Character tokens
             case '(':
-                tokens.push_back(Token(Type::LEFT_PAREN, "(", nullptr, line));
+                tokens.push_back(Token(Type::LEFT_PAREN, "(", nullopt, line));
                 break;
 
             case ')':
-                tokens.push_back(Token(Type::RIGHT_PAREN, ")", nullptr, line));
+                tokens.push_back(Token(Type::RIGHT_PAREN, ")", nullopt, line));
                 break;
 
             case '{':
-                tokens.push_back(Token(Type::LEFT_BRACE, "{", nullptr, line));
+                tokens.push_back(Token(Type::LEFT_BRACE, "{", nullopt, line));
                 break;
 
             case '}':
-                tokens.push_back(Token(Type::RIGHT_BRACE, "}", nullptr, line));
+                tokens.push_back(Token(Type::RIGHT_BRACE, "}", nullopt, line));
                 break;
 
             case ',':
-                tokens.push_back(Token(Type::COMMA, ",", nullptr, line));
+                tokens.push_back(Token(Type::COMMA, ",", nullopt, line));
                 break;
 
             case ';':
-                tokens.push_back(Token(Type::SEMICOLON, ";", nullptr, line));
+                tokens.push_back(Token(Type::SEMICOLON, ";", nullopt, line));
                 break;
 
             case '+':
-                tokens.push_back(Token(Type::PLUS, "+", nullptr, line));
+                tokens.push_back(Token(Type::PLUS, "+", nullopt, line));
                 break;
 
             case '-':
-                tokens.push_back(Token(Type::MINUS, "-", nullptr, line));
+                tokens.push_back(Token(Type::MINUS, "-", nullopt, line));
                 break;
 
             case '*':
-                tokens.push_back(Token(Type::STAR, "*", nullptr, line));
+                tokens.push_back(Token(Type::STAR, "*", nullopt, line));
                 break;
 
             // Comments and or just the slash
@@ -109,7 +110,7 @@ std::vector<Token>* Scanner::scanTokens() {
                     advance();
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::SLASH, "/", nullptr, line));
+                    tokens.push_back(Token(Type::SLASH, "/", nullopt, line));
                 }
                 break;
             }
@@ -117,10 +118,10 @@ std::vector<Token>* Scanner::scanTokens() {
             // Equal or double equal signs
             case '=': {
                 if (source.peek() == '=') {
-                    tokens.push_back(Token(Type::EQUAL_EQUAL, "==", nullptr, line));
+                    tokens.push_back(Token(Type::EQUAL_EQUAL, "==", nullopt, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::EQUAL, "=", nullptr, line));
+                    tokens.push_back(Token(Type::EQUAL, "=", nullopt, line));
                 }
                 break;
             }
@@ -128,10 +129,10 @@ std::vector<Token>* Scanner::scanTokens() {
             // Bang or bang equals
             case '!': {
                 if (source.peek() == '=') {
-                    tokens.push_back(Token(Type::BANG_EQUAL, "!=", nullptr, line));
+                    tokens.push_back(Token(Type::BANG_EQUAL, "!=", nullopt, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::BANG, "!", nullptr, line));
+                    tokens.push_back(Token(Type::BANG, "!", nullopt, line));
                 }
                 break;
             }
@@ -139,20 +140,20 @@ std::vector<Token>* Scanner::scanTokens() {
             // Greater than and less than
             case '>': {
                 if (source.peek() == '=') {
-                    tokens.push_back(Token(Type::GREATER_EQUAL, ">=", nullptr, line));
+                    tokens.push_back(Token(Type::GREATER_EQUAL, ">=", nullopt, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::GREATER, ">", nullptr, line));
+                    tokens.push_back(Token(Type::GREATER, ">", nullopt, line));
                 }
                 break;
             }
 
             case '<': {
                 if (source.peek() == '=') {
-                    tokens.push_back(Token(Type::LESS_EQUAL, "<=", nullptr, line));
+                    tokens.push_back(Token(Type::LESS_EQUAL, "<=", nullopt, line));
                     advance();
                 } else {
-                    tokens.push_back(Token(Type::LESS, "<", nullptr, line));
+                    tokens.push_back(Token(Type::LESS, "<", nullopt, line));
                 }
                 break;
             }
@@ -187,9 +188,9 @@ std::vector<Token>* Scanner::scanTokens() {
                     if (source.peek() == '.') {
                         lexeme.push_back(advance());
                         while (isdigit(source.peek())) lexeme.push_back(advance());
-                        tokens.push_back(Token(Type::NUMBER_DOUBLE, lexeme, std::stod(lexeme), line));
+                        tokens.push_back(Token(Type::NUMBER_DOUBLE, lexeme, stod(lexeme), line));
                     } else {
-                        tokens.push_back(Token(Type::NUMBER_INT, lexeme, std::stoi(lexeme), line));
+                        tokens.push_back(Token(Type::NUMBER_INT, lexeme, stoi(lexeme), line));
                     }
                 }
 
@@ -200,15 +201,15 @@ std::vector<Token>* Scanner::scanTokens() {
 
                     if (keywords.find(lexeme) == keywords.end()) {
                         // If the lexeme is not in the keywords, we assume it's an identifier
-                        tokens.push_back(Token(Type::IDENTIFIER, lexeme, nullptr, line));
+                        tokens.push_back(Token(Type::IDENTIFIER, lexeme, nullopt, line));
                     } else {
-                        tokens.push_back(Token(keywords.at(lexeme), lexeme, nullptr, line));
+                        tokens.push_back(Token(keywords.at(lexeme), lexeme, nullopt, line));
                     }
                 }
         }
     }
 
-    tokens.push_back(Token(Type::MASH_EOF, "", nullptr, line));
+    tokens.push_back(Token(Type::MASH_EOF, "", nullopt, line));
 
     return &tokens; 
 }

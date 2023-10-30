@@ -11,7 +11,7 @@
 
 #include "../../include/expr/Binary.h"
 
-Binary::Binary(unique_ptr<Expr> left, Token opp, unique_ptr<Expr> right) : 
+Binary::Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right) : 
                 left(std::move(left)), opp(opp), right(std::move(right)) {}
 
 void Binary::accept(ExprVisitor& visitor) const {

@@ -12,18 +12,19 @@
 #ifndef TOKEN_H
 #define TOKEN_H
 
-#include <any>
+#include <optional>
 #include <string>
+#include <variant>
 
 #include "TokenType.h"
 
-using namespace std;
+#define LITERAL_TYPE std::optional<std::variant<int, double, bool, std::string>>
 
 class Token {
     public:
         const TokenType::Type type;
-        const string lexeme;
-        const any literal;
+        const std::string lexeme;
+        const LITERAL_TYPE literal;
         const int line;
 
         /**
@@ -34,7 +35,7 @@ class Token {
          * @param literal the literal of the token if it has one
          * @param line the line that the token is located on in the source, for error reporting
          */
-        Token(TokenType::Type type, string lexeme, any literal, int line)
+        Token(TokenType::Type type, std::string lexeme, LITERAL_TYPE literal, int line)
             : type(type) , lexeme(lexeme) , literal(literal), line(line) {}
 
         /**
@@ -42,7 +43,7 @@ class Token {
          * 
          * @return string containing info about the token 
          */
-        string asString() const;
+        std::string asString() const;
 };
 
 #endif

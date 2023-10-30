@@ -52,26 +52,18 @@ void ASTWriter::visit(const Grouping& expr) {
 }
 
 void ASTWriter::visit(const Literal& expr) {
-    switch (expr.type) {
-        case Type::DOUBLE:
-            out << any_cast<double>(expr.value);
-            break;
-
-        case Type::INT:
-            out << any_cast<int>(expr.value);
-            break;
-
-        case Type::STRING_T:
-            out << "\"" << any_cast<string>(expr.value) << "\"";
-            break;
-
-        case Type::BOOLEAN:
-            out << (any_cast<bool>(expr.value) ? "true" : "false");
-            break;
-
-        // Unreachable
-        default:
-            break;
+    if (expr.value) {
+        if (holds_alternative<double>(expr.value.value())) {
+            out << get<double>(expr.value.value());
+        } else if (holds_alternative<int>(expr.value.value())) {
+            out << get<int>(expr.value.value());
+        } else if (holds_alternative<string>(expr.value.value())) {
+            out << "\"" << get<string>(expr.value.value()) << "\"";
+        } else if (holds_alternative<bool>(expr.value.value())) {
+            out << get<bool>(expr.value.value());
+        }
+    } else {
+        // Unreachable, but we should throw an error just in case
     }
 }
 

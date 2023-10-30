@@ -11,7 +11,7 @@
 
 #include "../../include/expr/Literal.h"
 
-Literal::Literal(std::any value, TokenType::Type type) : value(value), type(type) {}
+Literal::Literal(LITERAL_TYPE value) : value(value) {}
 
 void Literal::accept(ExprVisitor& visitor) const {
     visitor.visit(*this);

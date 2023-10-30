@@ -15,15 +15,14 @@
 #include <any>
 
 #include "Expr.h"
+#include "../core/Token.h"
 #include "../core/TokenType.h"
 
 class Literal : public Expr {
     public:
-        std::any value;
+        LITERAL_TYPE value;
 
-        TokenType::Type type;
-
-        Literal(std::any value, TokenType::Type type);
+        Literal(LITERAL_TYPE value);
 
         void accept(ExprVisitor& visitor) const override;
 };

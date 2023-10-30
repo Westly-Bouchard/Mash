@@ -59,7 +59,7 @@ class ASTWriter : public ExprVisitor, public StmtVisitor {
 
         int indent;
         
-        string strFromIndent() const;
+        std::string strFromIndent() const;
 };
 
 #endif

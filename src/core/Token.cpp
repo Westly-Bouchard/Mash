@@ -13,17 +13,21 @@
 
 #include "../../include/core/Token.h"
 
+using namespace std;
+
 string Token::asString() const {
     string result = TokenType::asStr(type) + " " + lexeme + " " + to_string(line);
 
-    
-
-    if (strcmp(literal.type().name(), "int") == 0) {
-        result += any_cast<int>(literal);
-    } else if (strcmp(literal.type().name(), "string") == 0) {
-        result += any_cast<string>(literal);
-    } else if (strcmp(literal.type().name(), "bool") == 0) {
-        result += any_cast<bool>(literal);
+    if (literal) {
+        if (holds_alternative<int>(literal.value())) {
+            result += get<int>(literal.value());
+        } else if (holds_alternative<double>(literal.value())) {
+            result += get<double>(literal.value());
+        } else if (holds_alternative<string>(literal.value())) {
+            result += get<string>(literal.value());
+        } else if (holds_alternative<bool>(literal.value())) {
+            result += get<bool>(literal.value());
+        }
     }
 
     return result; 
