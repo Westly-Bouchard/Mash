@@ -14,6 +14,8 @@
 #include "../../include/core/Scanner.h"
 #include "../../include/core/TokenType.h"
 
+#include "../../include/tool/Error.hpp"
+
 using namespace TokenType;
 using namespace std;
 
@@ -167,8 +169,7 @@ vector<Token>* Scanner::scanTokens() {
                 }
 
                 if (source.eof()) {
-                    cerr << "Encountered error: Unterminated string literal on line: " << line;
-                    return nullptr;
+                    throw mash::LexError("Unterminated string literal on line" + line);
                 }
 
                 // Consume closing quotes
@@ -192,9 +193,7 @@ vector<Token>* Scanner::scanTokens() {
                     } else {
                         tokens.push_back(Token(Type::NUMBER_INT, lexeme, stoi(lexeme), line));
                     }
-                }
-
-                if (isalpha(c)) {
+                } else if (isalpha(c)) {
                     // Look for a keyword 
                     lexeme.push_back(c);
                     while (iswalnum(source.peek())) lexeme.push_back(advance());
@@ -205,6 +204,8 @@ vector<Token>* Scanner::scanTokens() {
                     } else {
                         tokens.push_back(Token(keywords.at(lexeme), lexeme, nullopt, line));
                     }
+                } else {
+                    throw mash::ParseError("Unexpected character on line " + line);
                 }
         }
     }
