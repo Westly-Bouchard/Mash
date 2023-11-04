@@ -13,8 +13,9 @@
 
 #include "../../include/core/ASTCommon.h"
 
+#include "../../include/tool/Error.hpp"
+
 #include <iostream>
-#include <stdexcept>
 
 using namespace TokenType;
 using namespace std;
@@ -44,28 +45,34 @@ std::unique_ptr<Stmt> Parser::declaration() {
         || match(Type::STRING_T)
         || match(Type::BOOLEAN)
     ) {
-        // Grab the type token
-        Token type = previous();
 
-        // Consume the token that represents the name of the variable being declared. If the next
-        // token is not an identifier, then we have a syntax error and we have to handle that
-        Token name = consume(Type::IDENTIFIER, "Expected name for variable declaration");
+        try {
+            // Grab the type token
+            Token type = previous();
 
-        unique_ptr<Expr> initializer = nullptr;
+            // Consume the token that represents the name of the variable being declared. If the next
+            // token is not an identifier, then we have a syntax error and we have to handle that
+            Token name = consume(Type::IDENTIFIER, "Expected name for variable declaration");
 
-        // If we encounter an equals sign, then the user is also initializing the variable, and that
-        // is part of the declaration statement.
-        if (match(Type::EQUAL)) {
-            // So we parse the expression that follows the equal sign
-            initializer = expression();
+            unique_ptr<Expr> initializer = nullptr;
+
+            // If we encounter an equals sign, then the user is also initializing the variable, and that
+            // is part of the declaration statement.
+            if (match(Type::EQUAL)) {
+                // So we parse the expression that follows the equal sign
+                initializer = expression();
+            }
+
+            // Consume the semicolon at the end of the statement, if we don't find one that's a syntax
+            // error
+            consume(Type::SEMICOLON, "Expected a semicolon `;` after variable declaration");
+
+            // Return the AST node
+            return make_unique<VarDecl>(type.type, name, std::move(initializer));
+        } catch (mash::ParseError& e) {
+            cerr << e.what() << endl;
+            return nullptr;
         }
-
-        // Consume the semicolon at the end of the statement, if we don't find one that's a syntax
-        // error
-        consume(Type::SEMICOLON, "Expected a semicolon `;` after variable declaration");
-
-        // Return the AST node
-        return make_unique<VarDecl>(type.type, name, std::move(initializer));
     }
 
     // As per the grammar, if we did not match a variable declaration, we try to parse a statement
@@ -337,7 +344,7 @@ unique_ptr<Expr> Parser::primary() {
         return make_unique<Grouping>(std::move(expr));
     }
 
-    throw std::runtime_error(tokens.at(current).asString());
+    throw mash::ParseError("Expected expression", peek());
 }
 
 Token Parser::consume(Type expectedType, string errorMsg) {
@@ -346,9 +353,7 @@ Token Parser::consume(Type expectedType, string errorMsg) {
     }
 
     // Handle syntax error
-
-    cout << errorMsg;
-    throw runtime_error(errorMsg);
+    throw mash::ParseError(errorMsg, peek());
 }
 
 Token Parser::peek() {

@@ -169,7 +169,7 @@ vector<Token>* Scanner::scanTokens() {
                 }
 
                 if (source.eof()) {
-                    throw mash::LexError("Unterminated string literal on line" + line);
+                    throw mash::LexError("Unterminated string literal", line);
                 }
 
                 // Consume closing quotes
@@ -205,7 +205,7 @@ vector<Token>* Scanner::scanTokens() {
                         tokens.push_back(Token(keywords.at(lexeme), lexeme, nullopt, line));
                     }
                 } else {
-                    throw mash::ParseError("Unexpected character on line " + line);
+                    throw mash::LexError("Unexpected character on line ", line);
                 }
         }
     }
