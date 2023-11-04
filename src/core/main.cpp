@@ -18,13 +18,12 @@
 
 #include "../../include/tool/ASTWriter.h"
 #include "../../include/tool/ArgParser.h"
+#include "../../include/tool/Error.hpp"
 #include "../../include/core/Parser.h"
 #include "../../include/core/Token.h"
 #include "../../include/core/Scanner.h"
 
 using namespace std;
-
-void displayHelpMenu();
 
 /**
  * Mash Command Line Arguments
@@ -62,12 +61,18 @@ int main(int argc, char *argv[]) {
 
         Parser parser(*tokens);
 
-        vector<unique_ptr<Stmt>> ast = parser.parse();
+        try {
+            vector<unique_ptr<Stmt>> ast = parser.parse();
 
-        if (args.value().parserDebug) {
-            ASTWriter debug(ast, cout);
+            if (args.value().parserDebug) {
+                ASTWriter debug(ast, cout);
 
-            debug.write();
+                debug.write();
+            }
+            
+        } catch (mash::LexError& e) {
+            cerr << e.what();
+            return -1;
         }
 
     } else {
