@@ -35,6 +35,8 @@ class Parser {
         bool check(TokenType::Type type);
         bool match(TokenType::Type type);
 
+        void synchronize();
+
         std::unique_ptr<Stmt> declaration();
         std::unique_ptr<Stmt> statement();
         std::unique_ptr<Stmt> assignmentStatement();

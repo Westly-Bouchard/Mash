@@ -72,7 +72,7 @@ std::unique_ptr<Stmt> Parser::declaration() {
 
         // As per the grammar, if we did not match a variable declaration, we try to parse a statement
         return statement();
-        
+
     } catch (mash::ParseError& e) {
         cerr << e.what() << endl;
         return nullptr;
@@ -354,6 +354,29 @@ Token Parser::consume(Type expectedType, string errorMsg) {
 
     // Handle syntax error
     throw mash::ParseError(errorMsg, peek());
+}
+
+void Parser::synchronize() {
+    advance();
+
+    while (!isAtEnd()) {
+        if (previous().type == Type::SEMICOLON) return;
+
+        switch (peek().type) {
+            case Type::INT:
+            case Type::DOUBLE: 
+            case Type::STRING_T:
+            case Type::BOOLEAN:
+            case Type::IF:
+            case Type::FOR:
+            case Type::WHILE:
+            case Type::ECHO:
+            case Type::EXEC:
+                return;
+        }
+
+        advance();
+    }
 }
 
 Token Parser::peek() {
