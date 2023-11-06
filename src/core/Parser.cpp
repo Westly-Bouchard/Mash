@@ -373,6 +373,9 @@ void Parser::synchronize() {
             case Type::ECHO:
             case Type::EXEC:
                 return;
+                
+            default:
+                break;
         }
 
         advance();

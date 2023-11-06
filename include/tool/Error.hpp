@@ -1,5 +1,6 @@
 #include <stdexcept>
 #include <string>
+#include <sstream>
 
 #include "../core/Token.h"
 
@@ -8,15 +9,16 @@ namespace mash {
     class LexError : public std::exception {
         private:
             std::string message;
-            int line;
 
         public:
-            LexError(std::string message, int line) : message(message), line(line) {}
+            LexError(std::string message, int line) {
+                std::stringstream temp;
+                temp << "Encountered error on line: " << line << std::endl;
+                temp << message;
+                this->message = temp.str();
+            }
 
-            const char* what() {
-                std::string temp = "Encountered error on line " + line + '\n';
-                temp += message;
-                
+            const char* what() const noexcept override {
                 return message.c_str();
             }
     };
@@ -24,16 +26,17 @@ namespace mash {
     class ParseError : public std::exception {
         private:
             std::string message;
-            Token symbol;
 
         public:
-            ParseError(std::string message, Token symbol) : message(message), symbol(symbol) {}
+            ParseError(std::string message, Token symbol) {
+                std::stringstream temp;
+                temp << "Encountered error at token '" + symbol.lexeme + "' on line " << symbol.line;
+                temp << std::endl << message;
+                this->message = temp.str();
+            }
 
-            const char* what() {
-                std::string temp = "Encountered Error on line " + symbol.line + '\n';
-                temp += message;
-
-                return temp.c_str();
+            const char* what() const noexcept override {
+                return message.c_str();
             }
     };
     
@@ -44,7 +47,7 @@ namespace mash {
         public:
             RuntimeError(std::string message) : message(message) {}
 
-            const char* what() { return message.c_str(); }
+            const char* what() const noexcept override { return message.c_str(); }
     };
     
 }
