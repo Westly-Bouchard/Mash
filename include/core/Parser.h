@@ -23,6 +23,7 @@ class Parser {
     private:
         std::vector<Token>& tokens;
         int current;
+        bool hadError;
 
         Token previous();
         Token peek();
@@ -53,6 +54,8 @@ class Parser {
         Parser(std::vector<Token>& tokens);
 
         std::vector<std::unique_ptr<Stmt>> parse();
+
+        bool getErrorState();
 };
 
 #endif

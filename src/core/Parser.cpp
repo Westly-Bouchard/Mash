@@ -20,7 +20,7 @@
 using namespace TokenType;
 using namespace std;
 
-Parser::Parser(vector<Token>& tokens) : tokens(tokens), current(0) {}
+Parser::Parser(vector<Token>& tokens) : tokens(tokens), current(0), hadError(false) {}
 
 vector<unique_ptr<Stmt>> Parser::parse() {
 
@@ -36,6 +36,10 @@ vector<unique_ptr<Stmt>> Parser::parse() {
     }
 
     return statements;
+}
+
+bool Parser::getErrorState() {
+    return this->hadError; 
 }
 
 std::unique_ptr<Stmt> Parser::declaration() {
@@ -75,6 +79,8 @@ std::unique_ptr<Stmt> Parser::declaration() {
 
     } catch (mash::ParseError& e) {
         cerr << e.what() << endl;
+        synchronize();
+        hadError = true;
         return nullptr;
     }
 }

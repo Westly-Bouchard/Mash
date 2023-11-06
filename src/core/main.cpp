@@ -37,21 +37,38 @@ using namespace std;
  */
 int main(int argc, char *argv[]) {
 
+    // Attempt to parse the arguments we got into an intermediate object
     optional<ArgParser::MashArgs> args = ArgParser::parseArgs(argc, argv);
 
+    // If we received a valid set of arguments from the user, we are good to attempt to run the script
     if (args) {
+        // Open the source file we're trying to run
         ifstream sourceFile;
         sourceFile.open(args.value().filename);
 
+        // If we could not open the file, report the error to the user and terminate mash
         if (sourceFile.fail()) {
             cerr << "Failed to open input file: " << args.value().filename << endl;
             return -1;
         }
 
+        // Create a scanner with the source stream
         Scanner scanner(sourceFile);
 
-        vector<Token> *tokens = scanner.scanTokens();
+        // Set up variable for resulting token stream
+        vector<Token> *tokens;
 
+        // Attempt to scan the source file into a token stream
+        try {
+            tokens = scanner.scanTokens();
+        } catch (mash::LexError& e) {
+            // If we encountered a scanning error, report it to the user, and terminate mash
+            cerr << e.what();
+            cerr << "Error encountered during lexical analysis, terminating program" << endl;
+            return -1;
+        }
+
+        // If the user requested debug output from the lexical analysis, print it now
         if (args.value().scannerDebug) {
             cout << "Tokens Scanned:" << endl;
             for (auto t: *tokens) {
@@ -59,23 +76,35 @@ int main(int argc, char *argv[]) {
             }
         }
 
+        // Instantiate our parser, and provide it the token stream from our lexical analysis
         Parser parser(*tokens);
 
-        try {
-            vector<unique_ptr<Stmt>> ast = parser.parse();
+        /**
+         * @brief Ask the parser to build our abstract syntax tree
+         * 
+         * Note that this code does not utilize exceptions like the lexical analysis stage does.
+         * This is for a very important reason. We would like to try to catch as many syntax errors
+         * as possible in one go. So if the parser simply threw an exception to its caller at the
+         * first syntax error it found, we could only catch one error at a time. By having the parser
+         * simply set a flag instead, we can allow the parser to synchronize itself and catch more
+         * errors.
+         * 
+         */
+        vector<unique_ptr<Stmt>> ast = parser.parse();
 
-            if (args.value().parserDebug) {
-                ASTWriter debug(ast, cout);
-
-                debug.write();
-            }
-            
-        } catch (mash::LexError& e) {
-            cerr << e.what();
+        if (!parser.getErrorState()) {
+            cerr << "Encountered error(s) during ast construction, terminating program" << endl;
             return -1;
         }
 
+        // If the user requested debug output from the parsing stage, print it now
+        if (args.value().parserDebug) {
+            ASTWriter debug(ast, cout);
+
+            debug.write();
+        }
+
     } else {
-        return 0;
+        return -1;
     }
 }
