@@ -92,7 +92,7 @@ int main(int argc, char *argv[]) {
          */
         vector<unique_ptr<Stmt>> ast = parser.parse();
 
-        if (!parser.getErrorState()) {
+        if (parser.getErrorState()) {
             cerr << "Encountered error(s) during ast construction, terminating program" << endl;
             return -1;
         }

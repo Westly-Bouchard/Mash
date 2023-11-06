@@ -359,7 +359,7 @@ Token Parser::consume(Type expectedType, string errorMsg) {
     }
 
     // Handle syntax error
-    throw mash::ParseError(errorMsg, peek());
+    throw mash::ParseError(errorMsg, previous());
 }
 
 void Parser::synchronize() {
