@@ -39,14 +39,13 @@ vector<unique_ptr<Stmt>> Parser::parse() {
 }
 
 std::unique_ptr<Stmt> Parser::declaration() {
-    // Attempt to match these data type tokens, if we do we try to parse a variable declaration
-    if (match(Type::INT)
-        || match(Type::DOUBLE)
-        || match(Type::STRING_T)
-        || match(Type::BOOLEAN)
-    ) {
-
-        try {
+    try {
+        // Attempt to match these data type tokens, if we do we try to parse a variable declaration
+        if (match(Type::INT)
+            || match(Type::DOUBLE)
+            || match(Type::STRING_T)
+            || match(Type::BOOLEAN)
+        ) {
             // Grab the type token
             Token type = previous();
 
@@ -69,14 +68,15 @@ std::unique_ptr<Stmt> Parser::declaration() {
 
             // Return the AST node
             return make_unique<VarDecl>(type.type, name, std::move(initializer));
-        } catch (mash::ParseError& e) {
-            cerr << e.what() << endl;
-            return nullptr;
         }
-    }
 
-    // As per the grammar, if we did not match a variable declaration, we try to parse a statement
-    return statement();
+        // As per the grammar, if we did not match a variable declaration, we try to parse a statement
+        return statement();
+        
+    } catch (mash::ParseError& e) {
+        cerr << e.what() << endl;
+        return nullptr;
+    }
 }
 
 unique_ptr<Stmt> Parser::statement() {
