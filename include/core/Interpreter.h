@@ -5,6 +5,7 @@
 #ifndef INTERPRETER_H
 #define INTERPRETER_H
 #include <memory>
+#include <vector>
 
 #include "../expr/ExprVisitor.h"
 #include "../stmt/StmtVisitor.h"
