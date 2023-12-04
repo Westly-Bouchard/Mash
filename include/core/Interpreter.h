@@ -12,7 +12,7 @@
 
 class Stmt;
 
-class Interpreter : public ExprVisitor, public StmtVisitor {
+class Interpreter final : public ExprVisitor, public StmtVisitor {
 
 public:
     Interpreter(std::vector<std::unique_ptr<Stmt>>& ast);
@@ -34,6 +34,8 @@ public:
     void visit(const VarAssign& stmt) override;
     void visit(const VarDecl& stmt) override;
     void visit(const While& stmt) override;
+
+    ~Interpreter() override = default;
 
 private:
     // AST To walk

@@ -21,7 +21,7 @@
 #include "../expr/ExprVisitor.h"
 #include "../stmt/StmtVisitor.h"
 
-class ASTWriter final : public ExprVisitor, public StmtVisitor {
+class ASTWriter : public ExprVisitor, public StmtVisitor {
     public:
         /**
          * @brief Construct a new ASTWriter object
@@ -52,6 +52,8 @@ class ASTWriter final : public ExprVisitor, public StmtVisitor {
         void visit(const VarAssign& stmt) override;
         void visit(const VarDecl& stmt) override;
         void visit(const While& stmt) override;
+
+        ~ASTWriter() override = default;
 
     private:
         std::ostream& out;
