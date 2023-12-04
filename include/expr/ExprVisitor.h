@@ -25,6 +25,8 @@ class ExprVisitor {
         virtual void visit(const Literal& expr) = 0;
         virtual void visit(const Unary& expr) = 0;
         virtual void visit(const Variable& expr) = 0;
+
+        virtual ~ExprVisitor();
 };
 
 #endif

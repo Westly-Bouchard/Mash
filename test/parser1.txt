@@ -1,2 +1,7 @@
-echo("Hello World");
+if (thing) {
+    echo("Hi");
+
+    echo("Bye");
+}
+
 exec("ls", res);

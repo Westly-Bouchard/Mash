@@ -21,7 +21,7 @@
 #include "../expr/ExprVisitor.h"
 #include "../stmt/StmtVisitor.h"
 
-class ASTWriter : public ExprVisitor, public StmtVisitor {
+class ASTWriter final : public ExprVisitor, public StmtVisitor {
     public:
         /**
          * @brief Construct a new ASTWriter object

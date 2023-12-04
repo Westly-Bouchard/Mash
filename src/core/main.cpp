@@ -36,12 +36,9 @@ using namespace std;
  * `-help` Display help menu
  */
 int main(int argc, char *argv[]) {
-
     // Attempt to parse the arguments we got into an intermediate object
-    optional<ArgParser::MashArgs> args = ArgParser::parseArgs(argc, argv);
-
     // If we received a valid set of arguments from the user, we are good to attempt to run the script
-    if (args) {
+    if (auto args = ArgParser::parseArgs(argc, argv)) {
         // Open the source file we're trying to run
         ifstream sourceFile;
         sourceFile.open(args.value().filename);
@@ -71,7 +68,7 @@ int main(int argc, char *argv[]) {
         // If the user requested debug output from the lexical analysis, print it now
         if (args.value().scannerDebug) {
             cout << "Tokens Scanned:" << endl;
-            for (auto t: *tokens) {
+            for (const auto& t: *tokens) {
                 cout << t.asString() << endl;
             }
         }
@@ -107,4 +104,6 @@ int main(int argc, char *argv[]) {
     } else {
         return -1;
     }
+
+    return 0;
 }

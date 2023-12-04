@@ -28,7 +28,7 @@ TOOL_PATH = tool
 CORE_SRC_PATH = $(SRC_PATH)/$(CORE_PATH)
 CORE_OBJ_PATH = $(OBJ_DEST)/$(CORE_PATH)
 
-CORE_SRC_FILES = main.cpp Parser.cpp Scanner.cpp Token.cpp TokenType.cpp
+CORE_SRC_FILES = main.cpp Parser.cpp Scanner.cpp Token.cpp TokenType.cpp Interpreter.cpp
 
 CORE_OBJECTS = $(CORE_SRC_FILES:%.cpp=$(CORE_OBJ_PATH)/%.o)
 

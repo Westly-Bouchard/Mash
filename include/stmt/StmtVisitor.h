@@ -34,6 +34,8 @@ class StmtVisitor {
         virtual void visit(const VarAssign& stmt) = 0;
         virtual void visit(const VarDecl& stmt) = 0;
         virtual void visit(const While& stmt) = 0;
+
+        virtual ~StmtVisitor();
 };
 
 #endif
