@@ -25,7 +25,7 @@ void ASTWriter::write() {
 }
 
 string ASTWriter::strFromIndent() const {
-    string temp = "";
+    string temp;
 
     for (int i = 0; i < indent; i++) temp.push_back(' ');
 

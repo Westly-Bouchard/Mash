@@ -7,6 +7,8 @@
 #include <memory>
 #include <vector>
 
+#include "../core/ASTCommon.h"
+#include "Environment.h"
 #include "../expr/ExprVisitor.h"
 #include "../stmt/StmtVisitor.h"
 
@@ -39,10 +41,17 @@ public:
     ~Interpreter() override = default;
 
 private:
+    VALUE_TYPE evaluate(const Expr& expr);
+
+    static bool isTruthy(const VALUE_TYPE& value);
+
     // AST To walk
     std::vector<std::unique_ptr<Stmt>>& ast;
 
-    // Environment
+    // Global Environment
+    Environment environment;
+
+    VALUE_TYPE result;
 };
 
 
