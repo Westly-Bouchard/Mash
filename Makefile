@@ -2,12 +2,17 @@ TARGET = mash
 
 ifeq ($(shell echo "Windows"), "Windows")
 	TARGET := $(TARGET).exe
-	DEL = del
+	DEL = rmdir /s /q
+	CREATE = -mkdir
+	CXX = g++.exe
+	SEP = \\
 else
-	DEL = rm -f
+	DEL = rm -fr
+	CREATE = mkdir -p
+	CXX = g++
+	SEP = /
 endif
 
-CXX = g++
 CXXFLAGS = -Wall -g -std=c++20
 
 all: makemash
@@ -17,7 +22,7 @@ makemash: setup link
 
 ##--------------------------------------------------------------------------------------------------
 DEST = build
-OBJ_DEST = $(DEST)/objects
+OBJ_DEST = $(DEST)$(SEP)objects
 
 SRC_PATH = src
 CORE_PATH = core
@@ -25,48 +30,48 @@ EXPR_PATH = expr
 STMT_PATH = stmt
 TOOL_PATH = tool
 ##--------------------------------------------------------------------------------------------------
-CORE_SRC_PATH = $(SRC_PATH)/$(CORE_PATH)
-CORE_OBJ_PATH = $(OBJ_DEST)/$(CORE_PATH)
+CORE_SRC_PATH = $(SRC_PATH)$(SEP)$(CORE_PATH)
+CORE_OBJ_PATH = $(OBJ_DEST)$(SEP)$(CORE_PATH)
 
 CORE_SRC_FILES = main.cpp Parser.cpp Scanner.cpp Token.cpp TokenType.cpp Interpreter.cpp Environment.cpp
 
-CORE_OBJECTS = $(CORE_SRC_FILES:%.cpp=$(CORE_OBJ_PATH)/%.o)
+CORE_OBJECTS = $(CORE_SRC_FILES:%.cpp=$(CORE_OBJ_PATH)$(SEP)%.o)
 
-$(CORE_OBJ_PATH)/%.o: $(CORE_SRC_PATH)/%.cpp
+$(CORE_OBJ_PATH)$(SEP)%.o: $(CORE_SRC_PATH)$(SEP)%.cpp
 	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
-EXPR_SRC_PATH = $(SRC_PATH)/$(EXPR_PATH)
-EXPR_OBJ_PATH = $(OBJ_DEST)/$(EXPR_PATH)
+EXPR_SRC_PATH = $(SRC_PATH)$(SEP)$(EXPR_PATH)
+EXPR_OBJ_PATH = $(OBJ_DEST)$(SEP)$(EXPR_PATH)
 
 EXPR_SRC_FILES = Binary.cpp Grouping.cpp Literal.cpp Unary.cpp Variable.cpp
 
-EXPR_OBJECTS = $(EXPR_SRC_FILES:%.cpp=$(EXPR_OBJ_PATH)/%.o)
+EXPR_OBJECTS = $(EXPR_SRC_FILES:%.cpp=$(EXPR_OBJ_PATH)$(SEP)%.o)
 
-$(EXPR_OBJ_PATH)/%.o: $(EXPR_SRC_PATH)/%.cpp
+$(EXPR_OBJ_PATH)$(SEP)%.o: $(EXPR_SRC_PATH)$(SEP)%.cpp
 	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
-STMT_SRC_PATH = $(SRC_PATH)/$(STMT_PATH)
-STMT_OBJ_PATH = $(OBJ_DEST)/$(STMT_PATH)
+STMT_SRC_PATH = $(SRC_PATH)$(SEP)$(STMT_PATH)
+STMT_OBJ_PATH = $(OBJ_DEST)$(SEP)$(STMT_PATH)
 
 STMT_SRC_FILES = Block.cpp Echo.cpp Exec.cpp Expression.cpp For.cpp If.cpp VarAssign.cpp \
 				 VarDecl.cpp While.cpp
 
-STMT_OBJECTS = $(STMT_SRC_FILES:%.cpp=$(STMT_OBJ_PATH)/%.o)
+STMT_OBJECTS = $(STMT_SRC_FILES:%.cpp=$(STMT_OBJ_PATH)$(SEP)%.o)
 
-$(STMT_OBJ_PATH)/%.o: $(STMT_SRC_PATH)/%.cpp
+$(STMT_OBJ_PATH)$(SEP)%.o: $(STMT_SRC_PATH)$(SEP)%.cpp
 	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
-TOOL_SRC_PATH = $(SRC_PATH)/$(TOOL_PATH)
-TOOL_OBJ_PATH = $(OBJ_DEST)/$(TOOL_PATH)
+TOOL_SRC_PATH = $(SRC_PATH)$(SEP)$(TOOL_PATH)
+TOOL_OBJ_PATH = $(OBJ_DEST)$(SEP)$(TOOL_PATH)
 
 TOOL_SRC_FILES = ASTWriter.cpp ArgParser.cpp
 
-TOOL_OBJECTS = $(TOOL_SRC_FILES:%.cpp=$(TOOL_OBJ_PATH)/%.o)
+TOOL_OBJECTS = $(TOOL_SRC_FILES:%.cpp=$(TOOL_OBJ_PATH)$(SEP)%.o)
 
-$(TOOL_OBJ_PATH)/%.o: $(TOOL_SRC_PATH)/%.cpp
+$(TOOL_OBJ_PATH)$(SEP)%.o: $(TOOL_SRC_PATH)$(SEP)%.cpp
 	@echo "    Building $@"
 	@$(CXX) $(CXXFLAGS) -o $@ -c $<
 ##--------------------------------------------------------------------------------------------------
@@ -88,14 +93,14 @@ tool: $(TOOL_OBJECTS)
 	@echo "[INFO]: Building Mash Tool Objects"
 
 setup:
-	@mkdir -p $(DEST)
-	@mkdir -p $(OBJ_DEST)
-	@mkdir -p $(OBJ_DEST)/$(CORE_PATH)
-	@mkdir -p $(OBJ_DEST)/$(EXPR_PATH)
-	@mkdir -p $(OBJ_DEST)/$(STMT_PATH)
-	@mkdir -p $(OBJ_DEST)/$(TOOL_PATH)
+	@$(CREATE) $(DEST)
+	@$(CREATE) $(OBJ_DEST)
+	@$(CREATE) $(OBJ_DEST)$(SEP)$(CORE_PATH)
+	@$(CREATE) $(OBJ_DEST)$(SEP)$(EXPR_PATH)
+	@$(CREATE) $(OBJ_DEST)$(SEP)$(STMT_PATH)
+	@$(CREATE) $(OBJ_DEST)$(SEP)$(TOOL_PATH)
 
 clean:
-	@rm -fr $(DEST)
+	@$(DEL) $(DEST)
 
 .PHONY: clean all setup core expr stmt tool makemash
