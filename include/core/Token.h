@@ -35,7 +35,7 @@ class Token {
          * @param literal the literal of the token if it has one
          * @param line the line that the token is located on in the source, for error reporting
          */
-        Token(TokenType::Type type, std::string lexeme, LITERAL_TYPE literal, int line)
+        Token(const TokenType::Type type, std::string lexeme, LITERAL_TYPE literal, const int line)
             : type(type) , lexeme(lexeme) , literal(literal), line(line) {}
 
         /**

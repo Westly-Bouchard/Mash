@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <string>
 #include <sstream>
+#include <utility>
 
 #include "../core/Token.h"
 
@@ -45,7 +46,7 @@ namespace mash {
             std::string message;
 
         public:
-            RuntimeError(std::string message) : message(message) {}
+            RuntimeError(std::string message) : message(std::move(message)) {}
 
             const char* what() const noexcept override { return message.c_str(); }
     };
