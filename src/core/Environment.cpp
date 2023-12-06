@@ -446,6 +446,10 @@ std::ostream& operator<<(std::ostream& os, const Value& val) {
     return os;
 }
 
+Environment::Environment() : enclosing(this) {}
+
+Environment::Environment(Environment* enclosing) : enclosing(enclosing) {}
+
 void Environment::define(const string& name, Value& value) {
     if (!values.contains(name)) {
         values[name] = make_unique<Value>(value);
@@ -460,17 +464,24 @@ void Environment::define(const string& name, Value& value) {
 void Environment::assign(const Token& name, Value& value) {
     if (values.contains(name.lexeme)) {
         values[name.lexeme] = make_unique<Value>(value);
+    } else if (enclosing != this) {
+        enclosing->assign(name, value);
     }
-
-    stringstream ss;
-    ss << "Error assigning variable: " << name.lexeme << " is not defined in the current scope" << endl;
-    throw mash::RuntimeError(ss.str());
+    else {
+        stringstream ss;
+        ss << "Error assigning variable: " << name.lexeme << " is not defined in the current scope" << endl;
+        throw mash::RuntimeError(ss.str());
+    }
 }
 
 
 std::unique_ptr<Value>& Environment::get(const Token& name) {
     if (values.contains(name.lexeme)) {
         return values.at(name.lexeme);
+    }
+
+    if (enclosing != this) {
+        return enclosing->get(name);
     }
 
     stringstream ss;

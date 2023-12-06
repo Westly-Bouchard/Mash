@@ -83,7 +83,8 @@ std::ostream& operator<<(std::ostream& os, const Value& val);
 
 class Environment {
 public:
-    Environment() = default;
+    Environment();
+    Environment(Environment* enclosing);
 
     void define(const std::string& name, Value& value);
 
@@ -93,6 +94,8 @@ public:
 
 private:
     std::unordered_map<std::string, std::unique_ptr<Value>> values;
+
+    Environment* enclosing;
 };
 
 

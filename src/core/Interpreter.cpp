@@ -11,7 +11,14 @@
 using namespace std;
 using namespace TokenType;
 
-Interpreter::Interpreter(vector<unique_ptr<Stmt>>& ast) : ast(ast) {}
+Interpreter::Interpreter(vector<unique_ptr<Stmt>>& ast) : ast(ast) {
+    environment = new Environment();
+}
+
+Interpreter::~Interpreter() {
+    delete environment;
+}
+
 
 void Interpreter::walk() {
     try {
@@ -32,25 +39,55 @@ void Interpreter::visit(const Binary& expr) {
     const Value right = expr.right->accept(*this);
 
     switch (expr.opp.type) {
-        case EQUAL_EQUAL: ExprVisitor::result.set(left == right);
+        case EQUAL_EQUAL: {
+            ExprVisitor::result.set(left == right);
+            break;
+        }
 
-        case BANG_EQUAL: ExprVisitor::result.set(left != right);
+        case BANG_EQUAL: {
+            ExprVisitor::result.set(left != right);
+            break;
+        }
 
-        case GREATER: ExprVisitor::result.set(left > right);
+        case GREATER: {
+            ExprVisitor::result.set(left > right);
+            break;
+        }
 
-        case LESS: ExprVisitor::result.set(left < right);
+        case LESS: {
+            ExprVisitor::result.set(left < right);
+            break;
+        }
 
-        case GREATER_EQUAL: ExprVisitor::result.set(left >= right);
+        case GREATER_EQUAL: {
+            ExprVisitor::result.set(left >= right);
+            break;
+        }
 
-        case LESS_EQUAL: ExprVisitor::result.set(left <= right);
+        case LESS_EQUAL: {
+            ExprVisitor::result.set(left <= right);
+            break;
+        }
 
-        case PLUS: ExprVisitor::result = left + right;
+        case PLUS: {
+            ExprVisitor::result = left + right;
+            break;
+        }
 
-        case MINUS: ExprVisitor::result = left - right;
+        case MINUS: {
+            ExprVisitor::result = left - right;
+            break;
+        }
 
-        case SLASH: ExprVisitor::result = left / right;
+        case SLASH: {
+            ExprVisitor::result = left / right;
+            break;
+        }
 
-        case STAR: ExprVisitor::result = left * right;
+        case STAR: {
+            ExprVisitor::result = left * right;
+            break;
+        }
 
         default:
             break;
@@ -99,11 +136,19 @@ void Interpreter::visit(const Unary& expr) {
 }
 
 void Interpreter::visit(const Variable& expr) {
-    ExprVisitor::result = *environment.get(expr.name);
+    ExprVisitor::result = *(environment->get(expr.name));
 }
 
 void Interpreter::visit(const Block& stmt) {
+    Environment* previous = environment;
+    environment = new Environment(previous);
 
+    for (const auto& blockStmt : stmt.statements) {
+        blockStmt->accept(*this);
+    }
+
+    delete environment;
+    environment = previous;
 }
 
 void Interpreter::visit(const Echo& stmt) {
@@ -128,7 +173,7 @@ void Interpreter::visit(const If& stmt) {
 
 void Interpreter::visit(const VarAssign& stmt) {
     Value newValue = stmt.expr->accept(*this);
-    environment.assign(stmt.name, newValue);
+    environment->assign(stmt.name, newValue);
 }
 
 void Interpreter::visit(const VarDecl& stmt) {
@@ -147,13 +192,13 @@ void Interpreter::visit(const VarDecl& stmt) {
         Value initializer = stmt.expr->accept(*this);
 
         if (initializer.isOfType(type)) {
-            environment.define(stmt.name.lexeme, initializer);
+            environment->define(stmt.name.lexeme, initializer);
         } else {
             throw mash::RuntimeError("Error: Type Mismatch, cannot create variable of provided type, initializer does not match");
         }
     } else {
         Value def(type);
-        environment.define(stmt.name.lexeme, def);
+        environment->define(stmt.name.lexeme, def);
     }
 
 

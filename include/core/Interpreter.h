@@ -38,10 +38,12 @@ public:
     void visit(const VarDecl& stmt) override;
     void visit(const While& stmt) override;
 
-    ~Interpreter() override = default;
+    ~Interpreter() override;
 
 private:
     Value evaluate(const std::unique_ptr<Expr>& expr);
+
+    void executeBlock(std::unique_ptr<Stmt>& statemets, Environment& environment);
 
     // static bool isTruthy(const VALUE_TYPE& value);
 
@@ -49,7 +51,7 @@ private:
     std::vector<std::unique_ptr<Stmt>>& ast;
 
     // Global Environment
-    Environment environment;
+    Environment* environment;
 };
 
 
