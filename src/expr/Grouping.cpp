@@ -13,6 +13,6 @@
 
 Grouping::Grouping(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
 
-void Grouping::doAccept(ExprVisitorBase& visitor) {
+void Grouping::doAccept(ExprVisitorBase& visitor) const {
     visitor.visit(*this);
 }

@@ -15,19 +15,28 @@ Value::Value() {
     asInt = 0;
 }
 
-Value::Value(const ValueType kind, const int initialValue) : currentType(kind) {
+Value::Value(ValueType kind) : currentType(kind) {
+    switch (currentType) {
+        case ValueType::INT: asInt = 0;
+        case ValueType::DOUBLE: asDouble = 0.0;
+        case ValueType::BOOL: asBool = false;
+        case ValueType::STRING: asString = "";
+    }
+}
+
+Value::Value(const int initialValue) : currentType(ValueType::INT) {
     asInt = initialValue;
 }
 
-Value::Value(const ValueType kind, const double initialValue) : currentType(kind) {
+Value::Value(const double initialValue) : currentType(ValueType::DOUBLE) {
     asDouble = initialValue;
 }
 
-Value::Value(const ValueType kind, const bool initialValue) : currentType(kind) {
+Value::Value(const bool initialValue) : currentType(ValueType::BOOL) {
     asBool = initialValue;
 }
 
-Value::Value(const ValueType kind, const string& initialValue) : currentType(kind) {
+Value::Value(const string& initialValue) : currentType(ValueType::STRING) {
     asString = initialValue;
 }
 
@@ -37,18 +46,22 @@ Value::Value(Value& other) {
     switch (this->currentType) {
         case ValueType::INT: {
             this->asInt = other.getInt();
+            break;
         }
 
         case ValueType::DOUBLE: {
             this->asDouble = other.getDouble();
+            break;
         }
 
         case ValueType::BOOL: {
             this->asBool = other.getBool();
+            break;
         }
 
         case ValueType::STRING: {
             this->asString = other.getString();
+            break;
         }
     }
 
@@ -73,7 +86,7 @@ ValueType Value::getType() const {
 
 
 bool Value::isOfType(const ValueType kind) const {
-    return this->currentType == kind;
+    return currentType == kind;
 }
 
 bool Value::sameTypeAs(const Value& other) const {
@@ -146,7 +159,7 @@ int Value::getInt() const {
     throw runtime_error("Attept to access value as int, when type not int");
 }
 
-double Value::getDouble()const {
+double Value::getDouble() const {
     if (this->currentType == ValueType::DOUBLE) {
         return asDouble;
     }
@@ -171,16 +184,267 @@ std::string Value::getString() const {
 }
 
 bool Value::operator==(const Value& other) const {
+    // If they're both strings, we can compare them
     if (this->isOfType(ValueType::STRING) && other.isOfType(ValueType::STRING)) {
         return getString() == other.getString();
     }
 
-    if (this->isNumeric() && other.isNumeric()) {
-
+    // If only one of them is a stirng, then we can't compare them, this is a runtime error
+    if (this->isOfType(ValueType::STRING) || other.isOfType(ValueType::STRING)) {
+        throw mash::RuntimeError("Error, cannot compare string with non string type");
     }
+
+    // If they are both numeric, then we can compare them
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return thisValue == otherValue;
+    }
+
+    // If only one is numeric, then we can't perform the comparison
+    if (this->isNumeric() || other.isNumeric()) {
+        throw mash::RuntimeError("Error, cannot compare numeric type with non-numeric type");
+    }
+
+    if (this->isOfType(ValueType::BOOL) && other.isOfType(ValueType::BOOL)) {
+        return asBool == other.getBool();
+    }
+
+    throw mash::RuntimeError("Error, cannot compare types");
+
+}
+
+bool Value::operator!=(const Value& other) const {
+    return !(*this == other);
+}
+
+bool Value::operator>(const Value& other) const {
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return thisValue > otherValue;
+    }
+
+    throw mash::RuntimeError("Error, both types must be numeric to perform comparison");
+}
+
+bool Value::operator<(const Value& other) const {
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return thisValue < otherValue;
+    }
+
+    throw mash::RuntimeError("Error, both types must be numeric to perform comparison");
+}
+
+bool Value::operator>=(const Value& other) const {
+    return  *this > other || *this == other;
+}
+
+bool Value::operator<=(const Value&other) const {
+    return *this < other || *this == other;
+}
+
+Value Value::operator*(const Value& other) const {
+    if (areBoth(ValueType::INT, *this, other)) {
+        return {asInt * other.getInt()};
+    }
+
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return {thisValue * otherValue};
+    }
+
+    throw mash::RuntimeError("Error, cannot multiply types that are not both numeric");
+}
+
+Value& Value::operator=(const Value& other) {
+    this->currentType = other.getType();
+
+    switch (currentType) {
+        case ValueType::INT:
+            asInt = other.getInt();
+            break;
+
+        case ValueType::DOUBLE:
+            asDouble = other.getDouble();
+            break;
+
+        case ValueType::BOOL:
+            asBool = other.getBool();
+            break;
+
+        case ValueType::STRING:
+            asString = other.getString();
+            break;
+    }
+
+    return *this;
 }
 
 
+Value Value::operator/(const Value& other) const {
+    if (areBoth(ValueType::INT, *this, other)) {
+        return {asInt / other.getInt()};
+    }
+
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return {thisValue / otherValue};
+    }
+
+    throw mash::RuntimeError("Error, cannot divide types that are not both numeric");
+}
+
+Value Value::operator-(const Value&other) const {
+    if (areBoth(ValueType::INT, *this, other)) {
+        return {asInt - other.getInt()};
+    }
+
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return {thisValue - otherValue};
+    }
+
+    throw mash::RuntimeError("Error, cannot subtract types that are not both numeric");
+}
+
+Value Value::operator+(const Value& other) const {
+    if (areBoth(ValueType::INT, *this, other)) {
+        return {asInt + other.getInt()};
+    }
+
+    if (areBoth(ValueType::STRING, *this, other)) {
+        return {asString + other.getString()};
+    }
+
+    if (this->isNumeric() && other.isNumeric()) {
+        double thisValue;
+        double otherValue;
+
+        if (this->currentType == ValueType::DOUBLE) {
+            thisValue = asDouble;
+        } else {
+            thisValue = asInt;
+        }
+
+        if (other.getType() == ValueType::DOUBLE) {
+            otherValue = other.getDouble();
+        } else {
+            otherValue = other.getInt();
+        }
+
+        return {thisValue + otherValue};
+    }
+
+    throw mash::RuntimeError("Error, cannot add the provided types");
+}
+
+std::ostream& operator<<(std::ostream& os, const Value& val) {
+    switch (val.getType()) {
+        case ValueType::INT: {
+            os << val.getInt();
+            break;
+        }
+
+        case ValueType::DOUBLE: {
+            os << val.getDouble();
+            break;
+        }
+
+        case ValueType::BOOL: {
+            os << val.getBool();
+            break;
+        }
+
+        case ValueType::STRING: {
+            os << val.getString();
+            break;
+        }
+    }
+    return os;
+}
 
 void Environment::define(const string& name, Value& value) {
     if (!values.contains(name)) {
@@ -192,6 +456,17 @@ void Environment::define(const string& name, Value& value) {
     ss << "Error declaring variable: " << name << "Variable with same name already exists" << endl;
     throw mash::RuntimeError(ss.str());
 }
+
+void Environment::assign(const Token& name, Value& value) {
+    if (values.contains(name.lexeme)) {
+        values[name.lexeme] = make_unique<Value>(value);
+    }
+
+    stringstream ss;
+    ss << "Error assigning variable: " << name.lexeme << " is not defined in the current scope" << endl;
+    throw mash::RuntimeError(ss.str());
+}
+
 
 std::unique_ptr<Value>& Environment::get(const Token& name) {
     if (values.contains(name.lexeme)) {

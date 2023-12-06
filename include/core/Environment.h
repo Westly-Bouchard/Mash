@@ -20,10 +20,11 @@ enum class ValueType {
 class Value {
 public:
     Value();
-    Value(ValueType kind, int initialValue);
-    Value(ValueType kind, double initialValue);
-    Value(ValueType kind, bool initialValue);
-    Value(ValueType kind, const std::string& initialValue);
+    Value(ValueType kind);
+    Value(int initialValue);
+    Value(double initialValue);
+    Value(bool initialValue);
+    Value(const std::string& initialValue);
 
     Value(Value& other);
 
@@ -59,6 +60,13 @@ public:
     bool operator<(const Value& other) const;
     bool operator>(const Value& other) const;
 
+    Value& operator=(const Value& other);
+
+    Value operator+(const Value& other) const;
+    Value operator-(const Value& other) const;
+    Value operator/(const Value& other) const;
+    Value operator*(const Value& other) const;
+
 
 private:
     ValueType currentType;
@@ -71,11 +79,15 @@ private:
     };
 };
 
+std::ostream& operator<<(std::ostream& os, const Value& val);
+
 class Environment {
 public:
     Environment() = default;
 
     void define(const std::string& name, Value& value);
+
+    void assign(const Token& name, Value& value);
 
     std::unique_ptr<Value>& get(const Token& name);
 

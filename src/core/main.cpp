@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 
+#include "../../include/core/Interpreter.h"
 #include "../../include/tool/ASTWriter.h"
 #include "../../include/tool/ArgParser.h"
 #include "../../include/tool/Error.hpp"
@@ -100,6 +101,10 @@ int main(int argc, char *argv[]) {
 
             debug.write();
         }
+
+        Interpreter interpreter(ast);
+
+        interpreter.walk();
 
     } else {
         return -1;

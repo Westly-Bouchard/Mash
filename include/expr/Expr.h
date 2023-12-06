@@ -21,12 +21,12 @@ public:
     virtual ~Expr() = default;
 
     template <typename T>
-    T accept(ExprVisitor<T>& visitor) {
+    T accept(ExprVisitor<T>& visitor) const {
         doAccept(visitor);
         return visitor.result;
     }
 
-    virtual void doAccept(ExprVisitorBase& visitor) = 0;
+    virtual void doAccept(ExprVisitorBase& visitor) const = 0;
 };
 
 #endif

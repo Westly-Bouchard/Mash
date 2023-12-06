@@ -24,7 +24,7 @@ public:
 
     Literal(LITERAL_TYPE value);
 
-    void doAccept(ExprVisitorBase& visitor) override;
+    void doAccept(ExprVisitorBase& visitor) const override;
 };
 
 #endif

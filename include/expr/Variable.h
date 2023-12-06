@@ -21,7 +21,7 @@ public:
 
     Variable(Token name);
 
-    void doAccept(ExprVisitorBase& visitor) override;
+    void doAccept(ExprVisitorBase& visitor) const override;
 };
 
 #endif

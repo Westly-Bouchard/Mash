@@ -22,7 +22,7 @@ public:
 
     Grouping(std::unique_ptr<Expr> expr);
 
-    void doAccept(ExprVisitorBase& visitor) override;
+    void doAccept(ExprVisitorBase& visitor) const override;
 };
 
 #endif

@@ -13,6 +13,6 @@
 
 Variable::Variable(Token name) : name(name) {}
 
-void Variable::doAccept(ExprVisitorBase& visitor) {
+void Variable::doAccept(ExprVisitorBase& visitor) const {
     visitor.visit(*this);
 }

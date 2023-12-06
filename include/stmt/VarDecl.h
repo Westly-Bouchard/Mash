@@ -16,7 +16,6 @@
 
 #include "../expr/Expr.h"
 #include "../core/Token.h"
-#include "../core/Token.h"
 #include "Stmt.h"
 
 class VarDecl : public Stmt {

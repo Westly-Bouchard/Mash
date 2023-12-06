@@ -41,7 +41,7 @@ public:
     ~Interpreter() override = default;
 
 private:
-    Value evaluate(const Expr& expr);
+    Value evaluate(const std::unique_ptr<Expr>& expr);
 
     // static bool isTruthy(const VALUE_TYPE& value);
 

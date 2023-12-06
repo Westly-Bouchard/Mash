@@ -24,7 +24,7 @@ public:
 
     Unary(Token opp, std::unique_ptr<Expr> right);
 
-    void doAccept(ExprVisitorBase& visitor) override;
+    void doAccept(ExprVisitorBase& visitor) const override;
 };
 
 #endif
