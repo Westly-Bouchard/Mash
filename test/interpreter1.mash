@@ -1,9 +1,6 @@
-int a = 1;
-echo(a);
+int counter = 0;
 
-{
-int a = 2;
-echo(a);
+while (counter < 10) {
+    echo(counter);
+    counter = counter + 1;
 }
-
-echo(a);

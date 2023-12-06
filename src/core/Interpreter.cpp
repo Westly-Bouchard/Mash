@@ -164,11 +164,23 @@ void Interpreter::visit(const Expression& stmt) {
 }
 
 void Interpreter::visit(const For& stmt) {
+    auto condition = stmt.condition->accept(*this);
 
+    if (!condition.isOfType(ValueType::INT)) {
+        throw mash::RuntimeError("Error executing for loop, loop condition must be an integer");
+    }
+
+    for (int i = 0; i < condition.getInt(); i++) {
+        stmt.stmt->accept(*this);
+    }
 }
 
 void Interpreter::visit(const If& stmt) {
-
+    if (stmt.condition->accept(*this).isTruthy()) {
+        stmt.thenBranch->accept(*this);
+    } else if (stmt.thenBranch) {
+        stmt.elseBranch->accept(*this);
+    }
 }
 
 void Interpreter::visit(const VarAssign& stmt) {
@@ -200,11 +212,10 @@ void Interpreter::visit(const VarDecl& stmt) {
         Value def(type);
         environment->define(stmt.name.lexeme, def);
     }
-
-
-
 }
 
 void Interpreter::visit(const While& stmt) {
-
+    while (stmt.condition->accept(*this).isTruthy()) {
+        stmt.stmt->accept(*this);
+    }
 }
