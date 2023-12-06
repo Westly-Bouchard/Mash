@@ -18,14 +18,14 @@
 #include "../core/Token.h"
 
 class Binary : public Expr {
-    public:
-        std::unique_ptr<Expr> left;
-        Token opp;
-        std::unique_ptr<Expr> right;
+public:
+    std::unique_ptr<Expr> left;
+    Token opp;
+    std::unique_ptr<Expr> right;
 
-        Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right);
+    Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right);
 
-        void accept(ExprVisitor& visitor) const override;
+    void doAccept(ExprVisitorBase& visitor) override;
 };
 
 #endif

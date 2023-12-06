@@ -16,12 +16,12 @@
 #include "../core/Token.h"
 
 class Variable : public Expr {
-    public:
-        Token name;
+public:
+    Token name;
 
-        Variable(Token name);
+    Variable(Token name);
 
-        void accept(ExprVisitor& visitor) const override;
+    void doAccept(ExprVisitorBase& visitor) override;
 };
 
 #endif

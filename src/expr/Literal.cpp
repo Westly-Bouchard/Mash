@@ -13,6 +13,6 @@
 
 Literal::Literal(LITERAL_TYPE value) : value(value) {}
 
-void Literal::accept(ExprVisitor& visitor) const {
+void Literal::doAccept(ExprVisitorBase& visitor) {
     visitor.visit(*this);
 }

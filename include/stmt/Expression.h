@@ -18,12 +18,12 @@
 #include "Stmt.h"
 
 class Expression : public Stmt {
-    public:
-        std::unique_ptr<Expr> expr;
+public:
+    std::unique_ptr<Expr> expr;
 
-        Expression(std::unique_ptr<Expr> expr);
+    Expression(std::unique_ptr<Expr> expr);
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

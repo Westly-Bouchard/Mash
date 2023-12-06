@@ -13,6 +13,6 @@
 
 VarAssign::VarAssign(Token name, std::unique_ptr<Expr> expr) : name(name), expr(std::move(expr)) {}
 
-void VarAssign::accept(StmtVisitor& visitor) const {
+void VarAssign::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

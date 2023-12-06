@@ -14,6 +14,7 @@
 Binary::Binary(std::unique_ptr<Expr> left, Token opp, std::unique_ptr<Expr> right) : 
                 left(std::move(left)), opp(opp), right(std::move(right)) {}
 
-void Binary::accept(ExprVisitor& visitor) const {
+void Binary::doAccept(ExprVisitorBase& visitor) {
     visitor.visit(*this);
 }
+

@@ -14,6 +14,6 @@
 For::For(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt) :
           condition(std::move(condition)), stmt(std::move(stmt)) {}
 
-void For::accept(StmtVisitor& visitor) const {
+void For::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

@@ -17,12 +17,12 @@
 #include "Expr.h"
 
 class Grouping : public Expr {
-    public:
-        std::unique_ptr<Expr> expr;
+public:
+    std::unique_ptr<Expr> expr;
 
-        Grouping(std::unique_ptr<Expr> expr);
+    Grouping(std::unique_ptr<Expr> expr);
 
-        void accept(ExprVisitor& visitor) const override;
+    void doAccept(ExprVisitorBase& visitor) override;
 };
 
 #endif

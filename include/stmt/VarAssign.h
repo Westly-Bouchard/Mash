@@ -19,13 +19,13 @@
 #include "../core/Token.h"
 
 class VarAssign : public Stmt {
-    public:
-        Token name;
-        std::unique_ptr<Expr>expr;
+public:
+    Token name;
+    std::unique_ptr<Expr>expr;
 
-        VarAssign(Token name, std::unique_ptr<Expr> expr);
+    VarAssign(Token name, std::unique_ptr<Expr> expr);
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

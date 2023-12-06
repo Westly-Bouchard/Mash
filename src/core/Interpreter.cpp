@@ -23,64 +23,63 @@ void Interpreter::walk() {
     }
 }
 
-VALUE_TYPE Interpreter::evaluate(const Expr& expr) {
-    expr.accept(*this);
-    return result;
-}
-
-bool Interpreter::isTruthy(const VALUE_TYPE& value) {
-    if (
-        (holds_alternative<int>(value) && get<int>(value) == 0) ||
-        (holds_alternative<double>(value) && get<double>(value) == 0) ||
-        (holds_alternative<bool>(value) && !get<bool>(value))
-        ) return false;
-
-    return true;
-}
-
-
+// Value Interpreter::evaluate(const Expr& expr) {
+//     expr.accept(*this);
+//     return move(lastResult);
+// }
 
 void Interpreter::visit(const Binary& expr) {
+    // Value left = evaluate(*expr.left);
+    // Value right = evaluate(*expr.right);
+    //
+    // // Type verification
+    // switch (expr.opp.type) {
+    //     case EQUAL_EQUAL: {
+    //         if (left.sameTypeAs(right)) {
+    //
+    //         }
+    //     }
+    // }
 
 }
 
 void Interpreter::visit(const Grouping& expr) {
-    result = evaluate(*expr.expr);
+    // lastResult = evaluate(*expr.expr);
 }
 
 void Interpreter::visit(const Literal& expr) {
-    result = expr.value.value();
+    // Technically it's an optional but we can just unwrap it here because the parser will have ensured that it actually
+    // contains a value
+    // auto literal = expr.value.value;
+    //
+    // if (holds_alternative<int>(literal)) {
+    //     lastResult = Value(ValueType::INT, get<int>(literal));
+    // } else if (holds_alternative<double>(literal)) {
+    //     lastResult = Value(ValueType::DOUBLE, get<double>(literal));
+    // } else if (holds_alternative<bool>(literal)) {
+    //     lastResult = Value(ValueType::BOOL, get<bool>(literal));
+    // } else if (holds_alternative<string>(literal)) {
+    //     lastResult = Value(ValueType::STRING, get<string>(literal));
+    // }
 }
 
 void Interpreter::visit(const Unary& expr) {
-    // Evaluate the expression to operate on
-    const VALUE_TYPE right = evaluate(*expr.right);
-
-    // Check that type is negateable, the only type in mash that is not negateable is string
-    if (
-        expr.opp.type == MINUS && (holds_alternative<bool>(right) || holds_alternative<string>(right))
-        ) {
-        throw mash::RuntimeError("Type Mismatch");
-    }
-    switch (expr.opp.type) {
-        case MINUS: {
-            if (holds_alternative<int>(right)) {
-                result = -get<int>(right);
-            } else if (holds_alternative<double>(right)) {
-                result = -get<double>(right);
-            }
-        }
-        break;
-
-        case BANG: {
-            result = !isTruthy(right);
-        }
-        break;
-
-        default:
-            //Unreachable
-            break;
-    }
+    // // Evaluate the expression to operate on
+    // const Value right = evaluate(*expr.right);
+    //
+    // // Can only negate numeric values, so only int and double
+    // if (expr.opp.type == MINUS) {
+    //     if (right.isOfType(ValueType::INT)) {
+    //         lastResult.set(-right.getInt());
+    //     } else if (right.isOfType(ValueType::DOUBLE)) {
+    //         lastResult.set(-right.getDouble());
+    //     } else {
+    //         throw mash::RuntimeError("Error: Attempt to negate non-numeric value");
+    //     }
+    // // Can invert anything because truthiness is defined for all four mash types
+    // } else if (expr.opp.type == BANG) {
+    //     lastResult.set(!right.isTruthy());
+    // }
 }
 
 void Interpreter::visit(const Variable& expr) {

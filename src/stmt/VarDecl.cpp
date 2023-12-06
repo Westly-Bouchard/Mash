@@ -14,6 +14,6 @@
 VarDecl::VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr) :
                    type(type), name(name), expr(std::move(expr)) {}
 
-void VarDecl::accept(StmtVisitor& visitor) const {
+void VarDecl::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

@@ -15,7 +15,7 @@
 
 class Stmt;
 
-class Interpreter final : public ExprVisitor, public StmtVisitor {
+class Interpreter final : public ExprVisitor<Value>, public StmtVisitor<int> {
 
 public:
     Interpreter(std::vector<std::unique_ptr<Stmt>>& ast);
@@ -41,17 +41,15 @@ public:
     ~Interpreter() override = default;
 
 private:
-    VALUE_TYPE evaluate(const Expr& expr);
+    Value evaluate(const Expr& expr);
 
-    static bool isTruthy(const VALUE_TYPE& value);
+    // static bool isTruthy(const VALUE_TYPE& value);
 
     // AST To walk
     std::vector<std::unique_ptr<Stmt>>& ast;
 
     // Global Environment
     Environment environment;
-
-    VALUE_TYPE result;
 };
 
 

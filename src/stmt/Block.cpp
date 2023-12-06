@@ -13,6 +13,7 @@
 
 Block::Block(std::vector<std::unique_ptr<Stmt>> statements) : statements(std::move(statements)) {}
 
-void Block::accept(StmtVisitor& visitor) const {
+void Block::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }
+

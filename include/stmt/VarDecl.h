@@ -20,14 +20,14 @@
 #include "Stmt.h"
 
 class VarDecl : public Stmt {
-    public:
-        TokenType::Type type;
-        Token name;
-        std::unique_ptr<Expr> expr;
+public:
+    TokenType::Type type;
+    Token name;
+    std::unique_ptr<Expr> expr;
 
-        VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr);
+    VarDecl(TokenType::Type type, Token name, std::unique_ptr<Expr> expr);
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

@@ -18,18 +18,18 @@
 #include "Stmt.h"
 
 class If : public Stmt {
-    public:
-        std::unique_ptr<Expr> condition;
-        std::unique_ptr<Stmt> thenBranch;
-        std::unique_ptr<Stmt> elseBranch;
+public:
+    std::unique_ptr<Expr> condition;
+    std::unique_ptr<Stmt> thenBranch;
+    std::unique_ptr<Stmt> elseBranch;
 
-        If(
-            std::unique_ptr<Expr> condition,
-            std::unique_ptr<Stmt> thenBranch,
-            std::unique_ptr<Stmt> elseBranch
-        );
+    If(
+        std::unique_ptr<Expr> condition,
+        std::unique_ptr<Stmt> thenBranch,
+        std::unique_ptr<Stmt> elseBranch
+    );
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

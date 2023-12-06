@@ -18,13 +18,13 @@
 #include "Stmt.h"
 
 class While : public Stmt {
-    public:
-        std::unique_ptr<Expr> condition;
-        std::unique_ptr<Stmt> stmt;
+public:
+    std::unique_ptr<Expr> condition;
+    std::unique_ptr<Stmt> stmt;
 
-        While(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt);
+    While(std::unique_ptr<Expr> condition, std::unique_ptr<Stmt> stmt);
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

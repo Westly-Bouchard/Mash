@@ -20,7 +20,7 @@
 #include "../expr/ExprVisitor.h"
 #include "../stmt/StmtVisitor.h"
 
-class ASTWriter : public ExprVisitor, public StmtVisitor {
+class ASTWriter : public ExprVisitor<int>, public StmtVisitor<int> {
     public:
         /**
          * @brief Construct a new ASTWriter object

@@ -14,6 +14,6 @@
 Exec::Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result) :
             toRun(std::move(toRun)), result(std::move(result)) {}
 
-void Exec::accept(StmtVisitor& visitor) const {
+void Exec::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

@@ -17,9 +17,16 @@
 class Expr;
 
 class Stmt {
-    public:
-        virtual ~Stmt() = default;
-        virtual void accept(StmtVisitor& visitor) const = 0;
+public:
+    virtual ~Stmt() = default;
+
+    template <typename T>
+    T accept(StmtVisitor<T>& visitor) {
+        doAccept(visitor);
+        return visitor.result;
+    }
+
+    virtual void doAccept(StmtVisitorBase& visitor) = 0;
 };
 
 #endif

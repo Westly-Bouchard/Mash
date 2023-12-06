@@ -19,12 +19,12 @@
 #include "../core/TokenType.h"
 
 class Literal : public Expr {
-    public:
-        LITERAL_TYPE value;
+public:
+    LITERAL_TYPE value;
 
-        Literal(LITERAL_TYPE value);
+    Literal(LITERAL_TYPE value);
 
-        void accept(ExprVisitor& visitor) const override;
+    void doAccept(ExprVisitorBase& visitor) override;
 };
 
 #endif

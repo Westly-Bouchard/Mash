@@ -18,13 +18,13 @@
 #include "Stmt.h"
 
 class Exec : public Stmt {
-    public:
-        std::unique_ptr<Expr> toRun;
-        std::unique_ptr<Expr> result;
+public:
+    std::unique_ptr<Expr> toRun;
+    std::unique_ptr<Expr> result;
 
-        Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result);
+    Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result);
 
-        void accept(StmtVisitor& visitor) const override;
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif

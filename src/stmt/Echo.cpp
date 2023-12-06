@@ -13,6 +13,6 @@
 
 Echo::Echo(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
 
-void Echo::accept(StmtVisitor& visitor) const {
+void Echo::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

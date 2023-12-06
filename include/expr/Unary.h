@@ -18,13 +18,13 @@
 #include "../core/Token.h"
 
 class Unary : public Expr {
-    public:
-        Token opp;
-        std::unique_ptr<Expr> right;
+public:
+    Token opp;
+    std::unique_ptr<Expr> right;
 
-        Unary(Token opp, std::unique_ptr<Expr> right);
+    Unary(Token opp, std::unique_ptr<Expr> right);
 
-        void accept(ExprVisitor& visitor) const override;
+    void doAccept(ExprVisitorBase& visitor) override;
 };
 
 #endif

@@ -13,6 +13,6 @@
 
 Expression::Expression(std::unique_ptr<Expr> expr) : expr(std::move(expr)) {}
 
-void Expression::accept(StmtVisitor& visitor) const {
+void Expression::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

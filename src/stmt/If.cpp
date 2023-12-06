@@ -20,6 +20,6 @@ If::If(
         thenBranch(std::move(thenBranch)),
         elseBranch(std::move(elseBranch)) {}
 
-void If::accept(StmtVisitor& visitor) const {
+void If::doAccept(StmtVisitorBase& visitor) {
     visitor.visit(*this);
 }

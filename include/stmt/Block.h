@@ -18,13 +18,12 @@
 #include "Stmt.h"
 
 class Block : public Stmt {
-    public:
-        std::vector<std::unique_ptr<Stmt>> statements;
+public:
+    std::vector<std::unique_ptr<Stmt>> statements;
 
-        Block(std::vector<std::unique_ptr<Stmt>> statements);
+    Block(std::vector<std::unique_ptr<Stmt>> statements);
 
-        void accept(StmtVisitor& visitor) const override;
-
+    void doAccept(StmtVisitorBase& visitor) override;
 };
 
 #endif
