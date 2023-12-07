@@ -1,0 +1,4 @@
+//Missing semicolon, will be reported by the runtime
+int a = 1
+
+// This one isn't too crazy, it just shows how mash can detect and report syntax errors

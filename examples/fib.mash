@@ -1,0 +1,16 @@
+// Print the first 20 numbers of the fibonacci sequence
+int previous = 1;
+int a = 0;
+
+int counter = 0;
+
+while (counter < 20) {
+    counter = counter + 1;
+
+    echo(a);
+    echo(" ");
+
+    int temp = a;
+    a = a + previous;
+    previous = temp;
+}

@@ -1,0 +1,13 @@
+// Program to print the current working directory to the screen on windows machines
+
+// Command to run
+string cmd = "cd";
+
+// Variable to store the result of the command
+string result;
+
+// Mash library call
+exec(cmd, result);
+
+// Echo the command output to the terminal
+echo(result);
