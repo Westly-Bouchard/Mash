@@ -17,10 +17,21 @@ Value::Value() {
 
 Value::Value(ValueType kind) : currentType(kind) {
     switch (currentType) {
-        case ValueType::INT: data = 0;
-        case ValueType::DOUBLE: data = 0.0;
-        case ValueType::BOOL: data = false;
-        case ValueType::STRING: data = "";
+        case ValueType::INT: {
+            data = 0;
+            break;
+        }
+        case ValueType::DOUBLE: {
+            data = 0.0;
+            break;
+        }
+        case ValueType::BOOL: {
+            data = false;
+            break;
+        }
+        case ValueType::STRING: {
+            break;
+        }
     }
 }
 
@@ -67,17 +78,9 @@ Value::Value(Value& other) {
 
 }
 
-Value::~Value() {
-    // switch (currentType) {
-    //     case ValueType::INT:
-    //     case ValueType::DOUBLE:
-    //     case ValueType::BOOL:
-    //         break;
-    //
-    //     case ValueType::STRING:
-    //         asString.~string();
-    // }
-}
+// Value::~Value() {
+//     data.~variant();
+// }
 
 ValueType Value::getType() const {
     return this->currentType;
@@ -129,19 +132,19 @@ bool Value::areBoth(const ValueType kind, const Value& one, const Value& two) {
 void Value::set(const int newValue) {
     this->currentType = ValueType::INT;
 
-    data = newValue;
+    data = (int)newValue;
 }
 
 void Value::set(const double newValue) {
     this->currentType = ValueType::DOUBLE;
 
-    data = newValue;
+    data = (double)newValue;
 }
 
 void Value::set(const bool newValue) {
     this->currentType = ValueType::BOOL;
 
-    data = newValue;
+    data = (bool)newValue;
 }
 
 void Value::set(const string& newValue) {
@@ -151,7 +154,7 @@ void Value::set(const string& newValue) {
 }
 
 int Value::getInt() const {
-    if (this->currentType == ValueType::INT) {
+    if (this->currentType == ValueType::INT && holds_alternative<int>(data)) {
         return get<int>(data);
     }
 
@@ -159,7 +162,7 @@ int Value::getInt() const {
 }
 
 double Value::getDouble() const {
-    if (this->currentType == ValueType::DOUBLE) {
+    if (this->currentType == ValueType::DOUBLE && holds_alternative<double>(data)) {
         return get<double>(data);
     }
 
@@ -167,7 +170,7 @@ double Value::getDouble() const {
 }
 
 bool Value::getBool() const {
-    if (this->currentType == ValueType::BOOL) {
+    if (this->currentType == ValueType::BOOL && holds_alternative<bool>(data)) {
         return get<bool>(data);
     }
 
@@ -175,7 +178,7 @@ bool Value::getBool() const {
 }
 
 std::string Value::getString() const {
-    if (this->currentType == ValueType::STRING) {
+    if (this->currentType == ValueType::STRING && holds_alternative<string>(data)) {
         return get<string>(data);
     }
 

@@ -1,5 +1,5 @@
 string result;
 
-exec("pwd", result);
+exec("cd", result);
 
 echo(result);

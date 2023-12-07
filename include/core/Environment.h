@@ -29,7 +29,7 @@ public:
 
     Value(Value& other);
 
-    ~Value();
+    ~Value() = default;
 
     ValueType getType() const;
 
@@ -72,7 +72,7 @@ public:
 private:
     ValueType currentType;
 
-    std::variant<int, double, bool, std::string> data;
+    std::variant<std::string, int, double, bool> data;
 };
 
 std::ostream& operator<<(std::ostream& os, const Value& val);
