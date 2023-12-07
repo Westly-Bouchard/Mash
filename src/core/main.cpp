@@ -104,8 +104,6 @@ int main(int argc, char *argv[]) {
 
         Interpreter interpreter(ast);
 
-        cout << "Walking" << endl;
-
         interpreter.walk();
 
     } else {
