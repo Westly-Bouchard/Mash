@@ -5,6 +5,7 @@
 #include "../../include/core/Interpreter.h"
 
 #include <iostream>
+#include <cstdio>
 
 #include "../../include/tool/Error.hpp"
 
@@ -156,7 +157,31 @@ void Interpreter::visit(const Echo& stmt) {
 }
 
 void Interpreter::visit(const Exec& stmt) {
+     auto toRun = stmt.toRun->accept(*this);
+     if (!toRun.isOfType(ValueType::STRING))
+         throw mash::RuntimeError("Error executing exec, command to run must be of type string");
 
+     unique_ptr<FILE, decltype(&pclose)> pipe(popen(&toRun.getString()[0], "r"), pclose);
+
+     if (!pipe) {
+         throw mash::RuntimeError("Error executing exec, failed to run command");
+     }
+
+     if (stmt.result.type != MASH_EOF) {
+         array<char, 512> buffer{};
+
+         const string resultLoc = stmt.result.lexeme;
+
+         string result;
+
+         while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+             result += buffer.data();
+         }
+
+         Value resultVal(result);
+
+         environment->assign(resultLoc, resultVal);
+    }
 }
 
 void Interpreter::visit(const Expression& stmt) {

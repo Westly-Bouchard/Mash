@@ -116,9 +116,8 @@ void ASTWriter::visit(const Exec& stmt) {
 
     stmt.toRun->accept(*this);
 
-    if (stmt.result) {
-        out << endl << "Store Result In: ";
-        stmt.result->accept(*this);
+    if (stmt.result.type != MASH_EOF) {
+        out << endl << "Store Result In: " << stmt.result.lexeme;
     }
 
     indent -= 4;

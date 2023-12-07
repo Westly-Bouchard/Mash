@@ -15,6 +15,12 @@
 
 using namespace std;
 
+// Token& Token::operator=(const Token& other) {
+//     this->type = other.type;
+//     this->lexeme = other.lexeme;
+// }
+
+
 string Token::asString() const {
     string result = TokenType::asStr(type) + " " + lexeme + " " + to_string(line);
 

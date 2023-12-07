@@ -115,14 +115,13 @@ unique_ptr<Stmt> Parser::statement() {
 
         // It's good to be thinking about type checking at this point, but I think I'm going to move
         // that to its own pass
-        unique_ptr<Expr> result = nullptr;
+        Token result;
         if (match(Type::COMMA)) {
             // If the next token is a comma, then the user want's to store the result of the command
             // execution in a variable so we'll go ahead and parse an argument
 
             // We try to consume an identifier for the result
-            Token resultIdentifier = consume(Type::IDENTIFIER, "Expected identifier after `,`");
-            result = make_unique<Variable>(resultIdentifier);
+            result = consume(Type::IDENTIFIER, "Expected identifier after `,`");
         }
 
         // Consume the closing parentheses
@@ -132,7 +131,7 @@ unique_ptr<Stmt> Parser::statement() {
         consume(Type::SEMICOLON, "Expected semicolon `;` at end of statement");
 
         // Construct the ast node and return it
-        return make_unique<Exec>(std::move(toRun), std::move(result));
+        return make_unique<Exec>(std::move(toRun), result);
     }
 
     if (match(Type::IF)) {

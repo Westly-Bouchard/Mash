@@ -89,6 +89,7 @@ public:
     void define(const std::string& name, Value& value);
 
     void assign(const Token& name, Value& value);
+    void assign(const std::string& name, Value& value);
 
     std::unique_ptr<Value>& get(const Token& name);
 

@@ -9,9 +9,11 @@
  * 
  */
 
+#include <utility>
+
 #include "../../include/stmt/Exec.h"
 
-Exec::Exec(std::unique_ptr<Expr> toRun, std::unique_ptr<Expr> result) :
+Exec::Exec(std::unique_ptr<Expr> toRun, Token result) :
             toRun(std::move(toRun)), result(std::move(result)) {}
 
 void Exec::doAccept(StmtVisitorBase& visitor) {

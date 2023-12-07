@@ -65,7 +65,7 @@ Value::Value(Value& other) {
         }
     }
 
-    other.~Value();
+    // other.~Value();
 }
 
 Value::~Value() {
@@ -474,6 +474,18 @@ void Environment::assign(const Token& name, Value& value) {
     }
 }
 
+void Environment::assign(const std::string& name, Value& value) {
+    if (values.contains(name)) {
+        values[name] = make_unique<Value>(value);
+    } else if (enclosing != this) {
+        enclosing->assign(name, value);
+    }
+    else {
+        stringstream ss;
+        ss << "Error assigning variable: " << name << " is not defined in the current scope" << endl;
+        throw mash::RuntimeError(ss.str());
+    }
+}
 
 std::unique_ptr<Value>& Environment::get(const Token& name) {
     if (values.contains(name.lexeme)) {

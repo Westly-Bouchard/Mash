@@ -22,10 +22,10 @@
 
 class Token {
     public:
-        const TokenType::Type type;
-        const std::string lexeme;
-        const LITERAL_TYPE literal;
-        const int line;
+        TokenType::Type type;
+        std::string lexeme;
+        LITERAL_TYPE literal;
+        int line;
 
         /**
          * @brief Construct a new Token object
@@ -37,6 +37,10 @@ class Token {
          */
         Token(const TokenType::Type type, std::string lexeme, LITERAL_TYPE literal, const int line)
             : type(type) , lexeme(lexeme) , literal(literal), line(line) {}
+
+        Token() : type(TokenType::MASH_EOF), literal(std::nullopt), line(0) {}
+
+        // Token& operator=(const Token& other);
 
         /**
          * @brief For debugging and for easily representing a token as a string
