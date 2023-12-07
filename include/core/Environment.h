@@ -8,6 +8,7 @@
 #include <memory>
 #include <string>
 #include <unordered_map>
+#include <variant>
 
 #include "Token.h"
 
@@ -71,12 +72,7 @@ public:
 private:
     ValueType currentType;
 
-    union {
-        int asInt;
-        double asDouble;
-        bool asBool;
-        std::string asString;
-    };
+    std::variant<int, double, bool, std::string> data;
 };
 
 std::ostream& operator<<(std::ostream& os, const Value& val);

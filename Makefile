@@ -13,7 +13,7 @@ else
 	SEP = /
 endif
 
-CXXFLAGS = -Wall -g -std=c++20
+CXXFLAGS = -Wall -g -std=c++17
 
 all: makemash
 

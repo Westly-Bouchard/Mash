@@ -12,32 +12,32 @@ using namespace std;
 
 Value::Value() {
     currentType = ValueType::INT;
-    asInt = 0;
+    data = 0;
 }
 
 Value::Value(ValueType kind) : currentType(kind) {
     switch (currentType) {
-        case ValueType::INT: asInt = 0;
-        case ValueType::DOUBLE: asDouble = 0.0;
-        case ValueType::BOOL: asBool = false;
-        case ValueType::STRING: asString = "";
+        case ValueType::INT: data = 0;
+        case ValueType::DOUBLE: data = 0.0;
+        case ValueType::BOOL: data = false;
+        case ValueType::STRING: data = "";
     }
 }
 
 Value::Value(const int initialValue) : currentType(ValueType::INT) {
-    asInt = initialValue;
+    data = initialValue;
 }
 
 Value::Value(const double initialValue) : currentType(ValueType::DOUBLE) {
-    asDouble = initialValue;
+    data = initialValue;
 }
 
 Value::Value(const bool initialValue) : currentType(ValueType::BOOL) {
-    asBool = initialValue;
+    data = initialValue;
 }
 
 Value::Value(const string& initialValue) : currentType(ValueType::STRING) {
-    asString = initialValue;
+    data = initialValue;
 }
 
 Value::Value(Value& other) {
@@ -45,39 +45,38 @@ Value::Value(Value& other) {
 
     switch (this->currentType) {
         case ValueType::INT: {
-            this->asInt = other.getInt();
+            this->data = other.getInt();
             break;
         }
 
         case ValueType::DOUBLE: {
-            this->asDouble = other.getDouble();
+            this->data = other.getDouble();
             break;
         }
 
         case ValueType::BOOL: {
-            this->asBool = other.getBool();
+            this->data = other.getBool();
             break;
         }
 
         case ValueType::STRING: {
-            this->asString = other.getString();
+            this->data = other.getString();
             break;
         }
     }
 
-    // other.~Value();
 }
 
 Value::~Value() {
-    switch (currentType) {
-        case ValueType::INT:
-        case ValueType::DOUBLE:
-        case ValueType::BOOL:
-            break;
-
-        case ValueType::STRING:
-            asString.~string();
-    }
+    // switch (currentType) {
+    //     case ValueType::INT:
+    //     case ValueType::DOUBLE:
+    //     case ValueType::BOOL:
+    //         break;
+    //
+    //     case ValueType::STRING:
+    //         asString.~string();
+    // }
 }
 
 ValueType Value::getType() const {
@@ -96,19 +95,19 @@ bool Value::sameTypeAs(const Value& other) const {
 bool Value::isTruthy() const {
     switch (this->currentType) {
         case ValueType::INT: {
-            return asInt != 0;
+            return get<int>(data) != 0;
         }
 
         case ValueType::DOUBLE: {
-            return asDouble != 0;
+            return get<double>(data) != 0;
         }
 
         case ValueType::BOOL: {
-            return asBool;
+            return get<bool>(data);
         }
 
         case ValueType::STRING: {
-            return true;
+            return !get<string>(data).empty();
         }
     }
 
@@ -130,30 +129,30 @@ bool Value::areBoth(const ValueType kind, const Value& one, const Value& two) {
 void Value::set(const int newValue) {
     this->currentType = ValueType::INT;
 
-    asInt = newValue;
+    data = newValue;
 }
 
 void Value::set(const double newValue) {
     this->currentType = ValueType::DOUBLE;
 
-    asDouble = newValue;
+    data = newValue;
 }
 
 void Value::set(const bool newValue) {
     this->currentType = ValueType::BOOL;
 
-    asBool = newValue;
+    data = newValue;
 }
 
 void Value::set(const string& newValue) {
     this->currentType = ValueType::STRING;
 
-    asString = newValue;
+    data = newValue;
 }
 
 int Value::getInt() const {
     if (this->currentType == ValueType::INT) {
-        return asInt;
+        return get<int>(data);
     }
 
     throw runtime_error("Attept to access value as int, when type not int");
@@ -161,7 +160,7 @@ int Value::getInt() const {
 
 double Value::getDouble() const {
     if (this->currentType == ValueType::DOUBLE) {
-        return asDouble;
+        return get<double>(data);
     }
 
     throw runtime_error("Attemt to access value as double, when type not double");
@@ -169,7 +168,7 @@ double Value::getDouble() const {
 
 bool Value::getBool() const {
     if (this->currentType == ValueType::BOOL) {
-        return asBool;
+        return get<bool>(data);
     }
 
     throw runtime_error("Attemtpt to access value as bool, when type not bool");
@@ -177,7 +176,7 @@ bool Value::getBool() const {
 
 std::string Value::getString() const {
     if (this->currentType == ValueType::STRING) {
-        return asString;
+        return get<string>(data);
     }
 
     throw runtime_error("Attempt to access value as string, when value not string");
@@ -199,9 +198,9 @@ bool Value::operator==(const Value& other) const {
         double thisValue;
         double otherValue;
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -219,7 +218,7 @@ bool Value::operator==(const Value& other) const {
     }
 
     if (this->isOfType(ValueType::BOOL) && other.isOfType(ValueType::BOOL)) {
-        return asBool == other.getBool();
+        return get<bool>(data) == other.getBool();
     }
 
     throw mash::RuntimeError("Error, cannot compare types");
@@ -236,9 +235,9 @@ bool Value::operator>(const Value& other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -259,9 +258,9 @@ bool Value::operator<(const Value& other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -286,7 +285,7 @@ bool Value::operator<=(const Value&other) const {
 
 Value Value::operator*(const Value& other) const {
     if (areBoth(ValueType::INT, *this, other)) {
-        return {asInt * other.getInt()};
+        return {get<int>(data) * other.getInt()};
     }
 
     if (this->isNumeric() && other.isNumeric()) {
@@ -294,9 +293,9 @@ Value Value::operator*(const Value& other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -316,19 +315,19 @@ Value& Value::operator=(const Value& other) {
 
     switch (currentType) {
         case ValueType::INT:
-            asInt = other.getInt();
+            data = other.getInt();
             break;
 
         case ValueType::DOUBLE:
-            asDouble = other.getDouble();
+            data = other.getDouble();
             break;
 
         case ValueType::BOOL:
-            asBool = other.getBool();
+            data = other.getBool();
             break;
 
         case ValueType::STRING:
-            asString = other.getString();
+            data = other.getString();
             break;
     }
 
@@ -338,7 +337,7 @@ Value& Value::operator=(const Value& other) {
 
 Value Value::operator/(const Value& other) const {
     if (areBoth(ValueType::INT, *this, other)) {
-        return {asInt / other.getInt()};
+        return {get<int>(data) / other.getInt()};
     }
 
     if (this->isNumeric() && other.isNumeric()) {
@@ -346,9 +345,9 @@ Value Value::operator/(const Value& other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -365,7 +364,7 @@ Value Value::operator/(const Value& other) const {
 
 Value Value::operator-(const Value&other) const {
     if (areBoth(ValueType::INT, *this, other)) {
-        return {asInt - other.getInt()};
+        return {get<int>(data) - other.getInt()};
     }
 
     if (this->isNumeric() && other.isNumeric()) {
@@ -373,9 +372,9 @@ Value Value::operator-(const Value&other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<double>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -392,11 +391,11 @@ Value Value::operator-(const Value&other) const {
 
 Value Value::operator+(const Value& other) const {
     if (areBoth(ValueType::INT, *this, other)) {
-        return {asInt + other.getInt()};
+        return {get<int>(data) + other.getInt()};
     }
 
     if (areBoth(ValueType::STRING, *this, other)) {
-        return {asString + other.getString()};
+        return {get<string>(data) + other.getString()};
     }
 
     if (this->isNumeric() && other.isNumeric()) {
@@ -404,9 +403,9 @@ Value Value::operator+(const Value& other) const {
         double otherValue;
 
         if (this->currentType == ValueType::DOUBLE) {
-            thisValue = asDouble;
+            thisValue = get<double>(data);
         } else {
-            thisValue = asInt;
+            thisValue = get<int>(data);
         }
 
         if (other.getType() == ValueType::DOUBLE) {
@@ -451,7 +450,7 @@ Environment::Environment() : enclosing(this) {}
 Environment::Environment(Environment* enclosing) : enclosing(enclosing) {}
 
 void Environment::define(const string& name, Value& value) {
-    if (!values.contains(name)) {
+    if (values.find(name) == values.end()) {
         values[name] = make_unique<Value>(value);
         return;
     }
@@ -462,7 +461,7 @@ void Environment::define(const string& name, Value& value) {
 }
 
 void Environment::assign(const Token& name, Value& value) {
-    if (values.contains(name.lexeme)) {
+    if (values.find(name.lexeme) != values.end()) {
         values[name.lexeme] = make_unique<Value>(value);
     } else if (enclosing != this) {
         enclosing->assign(name, value);
@@ -475,7 +474,7 @@ void Environment::assign(const Token& name, Value& value) {
 }
 
 void Environment::assign(const std::string& name, Value& value) {
-    if (values.contains(name)) {
+    if (values.find(name) != values.end()) {
         values[name] = make_unique<Value>(value);
     } else if (enclosing != this) {
         enclosing->assign(name, value);
@@ -488,7 +487,7 @@ void Environment::assign(const std::string& name, Value& value) {
 }
 
 std::unique_ptr<Value>& Environment::get(const Token& name) {
-    if (values.contains(name.lexeme)) {
+    if (values.find(name.lexeme) != values.end()) {
         return values.at(name.lexeme);
     }
 

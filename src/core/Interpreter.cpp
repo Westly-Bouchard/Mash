@@ -4,6 +4,7 @@
 
 #include "../../include/core/Interpreter.h"
 
+#include <array>
 #include <iostream>
 #include <cstdio>
 
